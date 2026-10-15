@@ -1,0 +1,4 @@
+mvn spring-boot:run -Dspring-boot.run.arguments="--scenario=ambiguous --mode=PARALLEL"
+Scenario ambiguous run 947c92a7-3d1f-42a7-9840-0c21857b75d4 status=AWAITING_APPROVAL
+Pending approval 72de8076-849b-4d0f-b31f-aa40c2c39d3f for task human-clarification
+Approve through POST /api/approvals/{approvalId}, then resume with POST /api/runs/947c92a7-3d1f-42a7-9840-0c21857b75d4/resume, or rerun with --decision=APPROVE|REJECT --approver=<name>.

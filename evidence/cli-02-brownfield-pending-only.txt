@@ -1,0 +1,4 @@
+mvn spring-boot:run -Dspring-boot.run.arguments="--scenario=brownfield --mode=SEQUENTIAL"
+Scenario brownfield run fe9d284f-f49d-45a1-a258-52cf5bcd025f status=AWAITING_APPROVAL
+Pending approval 690ccde6-e82b-422b-8b1f-0f7fd3bec21f for task implementation
+Approve through POST /api/approvals/{approvalId}, then resume with POST /api/runs/fe9d284f-f49d-45a1-a258-52cf5bcd025f/resume, or rerun with --decision=APPROVE|REJECT --approver=<name>.

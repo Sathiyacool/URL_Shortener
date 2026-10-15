@@ -1,0 +1,2 @@
+mvn spring-boot:run -Dspring-boot.run.arguments="--scenario=greenfield --mode=SEQUENTIAL"
+Scenario greenfield run cbb865a0-dc76-4c15-99b3-a69da946bb49 status=SUCCEEDED

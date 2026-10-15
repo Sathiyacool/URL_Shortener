@@ -1,0 +1,20 @@
+PASS  expected=200 actual=200  GET /actuator/health (public)
+PASS  expected=401 actual=401  GET /api/scenarios no credentials
+PASS  expected=401 actual=401  GET /api/scenarios wrong password
+PASS  expected=200 actual=200  GET /api/scenarios operator
+PASS  expected=401 actual=401  GET /api/metrics/reliability no credentials
+PASS  expected=200 actual=200  GET /api/metrics/reliability operator
+PASS  expected=401 actual=401  GET /api/approvals/pending no credentials
+PASS  expected=401 actual=401  POST /api/runs/{id}/safe-stop no credentials
+PASS  expected=404 actual=404  GET /api/runs/{unknown} operator
+PASS  expected=400 actual=400  GET /api/runs/not-a-uuid operator
+PASS  expected=400 actual=400  POST /api/urls invalid body {}
+PASS  expected=400 actual=400  POST /api/urls ftp scheme
+PASS  expected=400 actual=400  POST /api/urls private IP destination
+PASS  expected=201 actual=201  POST /api/urls valid (public)
+PASS  expected=409 actual=409  POST /api/urls duplicate alias
+PASS  expected=302 actual=302  GET /evid1 redirect
+PASS  expected=404 actual=404  GET /missing-code
+PASS  expected=401 actual=401  GET /api/urls/evid1/stats no credentials
+PASS  expected=200 actual=200  GET /api/urls/evid1/stats operator
+stats body: {"totalClicks":1,"recentClicks":[{"clickedAt":"2026-10-15T19:52:14.289986Z","referrer":null,"userAgent":"curl/8.21.0"}]}

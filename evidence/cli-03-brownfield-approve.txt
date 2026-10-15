@@ -1,0 +1,8 @@
+mvn spring-boot:run -Dspring-boot.run.arguments="--scenario=brownfield --mode=SEQUENTIAL --decision=APPROVE --approver=cli-reviewer --rationale=Approved-30-day-default-expiration"
+Scenario brownfield run 5f6a8d2c-1d87-44e6-90ea-21cb79cab473 status=AWAITING_APPROVAL
+Pending approval cf73331f-4f31-4c09-a848-9abbb1892440 for task implementation
+Lifecycle: initial status=AWAITING_APPROVAL
+Lifecycle: pending approval cf73331f-4f31-4c09-a848-9abbb1892440 task=implementation
+Lifecycle: decision APPROVED by cli-reviewer task=implementation
+Lifecycle: resumed status=SUCCEEDED
+Scenario brownfield run 5f6a8d2c-1d87-44e6-90ea-21cb79cab473 final status=SUCCEEDED

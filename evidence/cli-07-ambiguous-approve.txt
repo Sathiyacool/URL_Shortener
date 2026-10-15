@@ -1,0 +1,8 @@
+mvn spring-boot:run -Dspring-boot.run.arguments="--scenario=ambiguous --mode=PARALLEL --decision=APPROVE --approver=cli-reviewer --rationale=Clarified-retention-policy"
+Scenario ambiguous run 0163adce-1b64-4753-812f-5a822fb03efe status=AWAITING_APPROVAL
+Pending approval 3cdcf6bd-2c72-471d-aa51-ecfb941215e1 for task human-clarification
+Lifecycle: initial status=AWAITING_APPROVAL
+Lifecycle: pending approval 3cdcf6bd-2c72-471d-aa51-ecfb941215e1 task=human-clarification
+Lifecycle: decision APPROVED by cli-reviewer task=human-clarification
+Lifecycle: resumed status=SUCCEEDED
+Scenario ambiguous run 0163adce-1b64-4753-812f-5a822fb03efe final status=SUCCEEDED

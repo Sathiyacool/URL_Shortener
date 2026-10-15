@@ -1,0 +1,7 @@
+Date: 2026-10-16
+Command: java -jar target\agentic-url-shortener-0.1.0-SNAPSHOT.jar --spring.profiles.active=prod --server.port=0
+Environment: DATABASE_URL, DATABASE_USERNAME, DATABASE_PASSWORD, APP_OIDC_ISSUER_URI, APP_OIDC_AUDIENCE explicitly empty
+Observed process exit: 1
+Observed startup failure: Production database requires PostgreSQL connection settings and TLS via DATABASE_SSL_MODE
+
+No credential values were used or recorded.

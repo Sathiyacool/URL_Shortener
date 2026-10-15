@@ -1,0 +1,28 @@
+Source: target/surefire-reports/*.xml and target/cucumber-reports/cucumber.json
+Command executed: mvn clean verify
+Date: 2026-10-16
+Java: Eclipse Temurin 21.0.12.1
+Maven: 3.9.11
+Spring Boot: 3.5.16
+
+Maven outcome: BUILD SUCCESS (process exit code 0)
+JUnit/Surefire total: 111
+Failures: 0
+Errors: 0
+Skipped: 1
+Passed: 110
+
+BDD:
+Scenarios: 6 passed, 0 failed, 0 skipped
+Steps: 22 passed, 0 failed, 0 skipped
+
+Skipped test:
+ArtifactSandboxTest.rejectsSymlinkThatTargetsOutsideSandbox
+Reason: Windows denied symlink creation; escape assertion did not execute.
+
+Production-profile verification limits:
+- Flyway migration and Hibernate schema validation executed against H2.
+- Production database configuration validators reject missing settings, embedded URL credentials, and disabled TLS; default DB TLS mode is verify-full.
+- OIDC authorization boundary tests used MockMvc JWT test tokens.
+- No live PostgreSQL database or OIDC issuer was available.
+- Existing evidence/rest-*.txt transcripts cover the prior HTTP Basic configuration and are historical only.

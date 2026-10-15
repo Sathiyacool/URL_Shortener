@@ -1,0 +1,46 @@
+spring:
+  application:
+    name: agentic-url-shortener
+  datasource:
+    url: jdbc:h2:mem:agentic;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+  flyway:
+    enabled: true
+
+server:
+  address: 127.0.0.1
+
+app:
+  public-base-url: http://localhost:8080
+  default-expiration: 30d
+
+orchestration:
+  execution:
+    max-parallel-tasks: 4
+    queue-capacity: 64
+    safe-stop-timeout: 2s
+  retry:
+    max-attempts: 3
+    initial-delay: 100ms
+    maximum-delay: 1s
+    multiplier: 2.0
+
+logging:
+  level:
+    root: INFO
+    com.schwab.agentic: INFO
+    org.hibernate.SQL: WARN
+  pattern:
+    console: "%d{HH:mm:ss.SSS} %-5level [%thread] %logger{0} - %msg%n"
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics

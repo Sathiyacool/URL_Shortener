@@ -1,0 +1,14 @@
+target/
+surefire-reports/
+agent-workspace/
+.idea/
+.vscode/
+*.iml
+*.mv.db
+*.trace.db
+.env
+.env.*
+!.env.example
+*.log
+*.log.*
+*.class

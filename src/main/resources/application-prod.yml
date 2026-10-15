@@ -1,0 +1,27 @@
+server:
+  address: ${SERVER_ADDRESS:0.0.0.0}
+
+spring:
+  datasource:
+    url: ${app.database.url}
+    username: ${app.database.username}
+    password: ${app.database.password}
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      data-source-properties:
+        sslmode: ${app.database.ssl-mode}
+  jpa:
+    hibernate:
+      ddl-auto: validate
+  flyway:
+    enabled: true
+
+app:
+  database:
+    url: ${DATABASE_URL:}
+    username: ${DATABASE_USERNAME:}
+    password: ${DATABASE_PASSWORD:}
+    ssl-mode: ${DATABASE_SSL_MODE:verify-full}
+  security:
+    issuer-uri: ${APP_OIDC_ISSUER_URI:}
+    audience: ${APP_OIDC_AUDIENCE:}

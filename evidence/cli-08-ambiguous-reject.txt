@@ -1,0 +1,8 @@
+mvn spring-boot:run -Dspring-boot.run.arguments="--scenario=ambiguous --mode=PARALLEL --decision=REJECT --approver=cli-reviewer --rationale=Requirements-still-unclear"
+Scenario ambiguous run b89bec07-ee51-4cfa-a0a3-d3ec3f0bfc84 status=AWAITING_APPROVAL
+Pending approval e433fd99-3f17-4fe1-a39d-58431febd126 for task human-clarification
+Lifecycle: initial status=AWAITING_APPROVAL
+Lifecycle: pending approval e433fd99-3f17-4fe1-a39d-58431febd126 task=human-clarification
+Lifecycle: decision REJECTED by cli-reviewer task=human-clarification
+Lifecycle: rejection result status=CANCELLED
+Scenario ambiguous run b89bec07-ee51-4cfa-a0a3-d3ec3f0bfc84 final status=CANCELLED

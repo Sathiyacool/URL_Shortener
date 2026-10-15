@@ -1,0 +1,8 @@
+mvn spring-boot:run -Dspring-boot.run.arguments="--scenario=brownfield --mode=SEQUENTIAL --decision=REJECT --approver=cli-reviewer --rationale=Rejected-pending-product-review"
+Scenario brownfield run f4abad97-8222-47bf-83b5-c6baffe80265 status=AWAITING_APPROVAL
+Pending approval b8a7d39e-3a7d-430f-bdb8-5986de7355db for task implementation
+Lifecycle: initial status=AWAITING_APPROVAL
+Lifecycle: pending approval b8a7d39e-3a7d-430f-bdb8-5986de7355db task=implementation
+Lifecycle: decision REJECTED by cli-reviewer task=implementation
+Lifecycle: rejection result status=CANCELLED
+Scenario brownfield run f4abad97-8222-47bf-83b5-c6baffe80265 final status=CANCELLED

@@ -1,0 +1,9 @@
+mvn spring-boot:run -Dspring-boot.run.arguments="--scenario=brownfield --mode=SEQUENTIAL --decision=APPROVE --approver=cli-reviewer --rationale=Approved-with-safe-stop --safe-stop-before-resume"
+Scenario brownfield run e52af611-1d02-43d1-9886-4e156c63862a status=AWAITING_APPROVAL
+Pending approval ce3807d2-76d4-4fa0-98a2-a48b847485aa for task implementation
+Lifecycle: initial status=AWAITING_APPROVAL
+Lifecycle: pending approval ce3807d2-76d4-4fa0-98a2-a48b847485aa task=implementation
+Lifecycle: decision APPROVED by cli-reviewer task=implementation
+Lifecycle: safe-stop requested; execute status=SAFE_STOPPED
+Lifecycle: resumed status=SUCCEEDED
+Scenario brownfield run e52af611-1d02-43d1-9886-4e156c63862a final status=SUCCEEDED
