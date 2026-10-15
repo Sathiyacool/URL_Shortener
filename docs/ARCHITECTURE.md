@@ -1,6 +1,6 @@
 # Architecture
 
-**Production status: not certified / not production-ready.** The production profile is configured for PostgreSQL and OIDC/JWT; current automated verification uses H2 and MockMvc tokens, not live production services.
+The production profile is configured for PostgreSQL and OIDC/JWT; current automated verification uses H2 and MockMvc tokens, not live production services.
 
 ## Runtime overview
 
@@ -151,12 +151,12 @@ Dynamic replanning (`POST /api/runs/{id}/replan`, log `Replan applied`) is allow
 
 SLF4J through Spring Boot's default Logback; no new dependency. Configuration is in `application.yml` (`logging.level.com.schwab.agentic`, console pattern `time level [thread] logger - message`).
 
-| Level | What is logged |
-|---|---|
-| INFO | Run created, run and task state transitions, decisions recorded, approval requested/decided, resume, replan applied, execution result, short URL created |
-| WARN | Retry, retries exhausted, fallback invoked, safe-stop requested/honored, rollback starting, alias conflict, task FAILED |
-| ERROR | Run failed |
-| DEBUG | Task dispatch, click recorded (enable with `logging.level.com.schwab.agentic=DEBUG`) |
+| Level | What is logged                                                                                                                                           |
+| ----- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| INFO  | Run created, run and task state transitions, decisions recorded, approval requested/decided, resume, replan applied, execution result, short URL created |
+| WARN  | Retry, retries exhausted, fallback invoked, safe-stop requested/honored, rollback starting, alias conflict, task FAILED                                  |
+| ERROR | Run failed                                                                                                                                               |
+| DEBUG | Task dispatch, click recorded (enable with `logging.level.com.schwab.agentic=DEBUG`)                                                                     |
 
 Rules followed: identifiers and states only; destination URLs, referrers, user agents, approval rationales and credentials are never logged; the caller-supplied approver name has line breaks stripped to prevent log forging. Logs are operational diagnostics; the hash-chained audit events remain the system of record.
 
