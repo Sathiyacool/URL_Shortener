@@ -1,6 +1,6 @@
 # Risks, trade-offs, assumptions, and limitations
 
-**Production status: not production-ready or certified.** PostgreSQL/Flyway and OIDC/JWT profile configuration has been added, but no live services, operational controls, or production deployment have been verified. See [ASSESSMENT_READINESS.md](./ASSESSMENT_READINESS.md).
+PostgreSQL/Flyway and OIDC/JWT profile configuration has been added, but no live services, operational controls, or production deployment have been verified. See [ASSESSMENT_READINESS.md](./ASSESSMENT_READINESS.md).
 
 ## Risks
 
