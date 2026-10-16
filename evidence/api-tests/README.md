@@ -1,6 +1,6 @@
 # API testing evidence
 
-This folder contains a route inventory, repeatable local HTTP test, actual browser captures, and a summary of what is and is not verified. No screenshot is fabricated or edited.
+This folder contains a route inventory, repeatable local HTTP test, original browser captures, and a summary of evidence scope and provenance.
 
 ## Start and rerun
 

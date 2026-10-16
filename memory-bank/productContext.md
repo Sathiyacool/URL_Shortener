@@ -23,7 +23,7 @@ High-impact tasks never dispatch before an approval is `APPROVED`; rejection can
 
 ## Production hardening boundary
 
-The `prod` profile is configured for PostgreSQL and OIDC JWT with issuer, audience, and operator-scope checks. These integrations were not tested against live services. The default profile remains in-memory H2 for local demos. Production deployments still need a live IdP, gateway TLS/rate limits, managed secrets, operational database controls, and recovery verification.
+The `prod` profile is configured for PostgreSQL and OIDC JWT with issuer, audience, and operator-scope checks. The default profile uses in-memory H2 for local demos. Live integration results and deployment controls—including identity-provider validation, gateway TLS/rate limits, managed secrets, database operations, and recovery—are tracked in `docs/OPERATIONS_AND_RELEASE_READINESS.md`.
 
 ## Not product scope
 

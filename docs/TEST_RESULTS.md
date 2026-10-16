@@ -6,7 +6,7 @@ Last full source verification: **2026-10-17 00:59:33 +05:30**, rerun after the A
 
 Follow-up test-phase run after the documentation update: `mvn -B test` on 2026-10-17 completed with **149 tests, 144 passed, 0 failures, 0 errors, and 5 skipped; BUILD SUCCESS**. This run included the Cucumber suite; the latest clean `verify` record and its detailed skip explanations remain the release evidence below.
 
-Production readiness is **not** inferred from this test run. The PostgreSQL schema scripts and the PostgreSQL contract tests were exercised only against H2 here: Docker is not running on this host, so the Testcontainers PostgreSQL tests were **skipped, not passed**. OIDC route tests used synthetic MockMvc JWTs and a local-key signature test; no live issuer was exercised. The GitHub Actions workflow has **not been run** (nothing has been pushed).
+This run validates the local H2 profile, application tests, and MockMvc security boundaries. PostgreSQL-specific contract tests were **skipped, not passed**, because Docker was unavailable on this host; the corresponding H2 tests ran. OIDC route tests used synthetic MockMvc JWTs and a local-key signature test. GitHub-hosted workflow execution and live identity-provider/database validation are tracked separately in [operational release readiness](./OPERATIONS_AND_RELEASE_READINESS.md).
 
 ## Final clean verification
 

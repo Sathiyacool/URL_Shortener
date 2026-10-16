@@ -13,7 +13,7 @@ Deployment prerequisites and outstanding environment-specific evidence are summa
 | Secret scan (working tree) | 0 unallowed, 4 documented fake fixtures. Git history **not** scanned | [secret-scan-local.txt](../evidence/secret-scan-local.txt) | REQ-27 |
 | Load smoke test | 0 failures across 416 requests; 200/200 clicks recorded; 4-CPU Windows host, H2, default profile | [load-test-results.txt](../evidence/load-test-results.txt), [LOAD_TEST_PLAN.md](./LOAD_TEST_PLAN.md) | REQ-28 |
 | OIDC verification matrix | Synthetic-JWT and local-RSA-key tests only; live IdP items listed | [HARDENING_REVIEW.md](./HARDENING_REVIEW.md) | REQ-13 |
-| CI workflow | Written ([ci.yml](../.github/workflows/ci.yml)); **never executed** (nothing pushed) | none | REQ-26 |
+| CI workflow | Committed ([ci.yml](../.github/workflows/ci.yml)); GitHub-hosted execution evidence has not been recorded | none | REQ-26 |
 | PostgreSQL migration/schema mapping | Flyway migration and Hibernate `validate` run successfully against H2 (`H2PersistenceContractTest`). The same contract on PostgreSQL (`PostgresPersistenceContractTest`) was **skipped: no Docker** | Surefire reports | REQ-13 (partial) |
 | OIDC authorization boundaries | Anonymous 401, JWT without operator scope 403, configured operator scope permitted, missing OIDC issuer/audience fails closed; 7 focused production tests passed (plus 2 `SecurityConfigurationTest` unit tests in the full suite) | Surefire XML for `Production*Test` and `SecurityConfigurationTest` | REQ-13 |
 | Production database fail-closed startup | Real Java process exited 1 with all DB/OIDC environment variables empty and rejected the missing PostgreSQL configuration before starting | [prod-00-fail-closed-database.txt](../evidence/prod-00-fail-closed-database.txt) | REQ-13 |
@@ -50,7 +50,7 @@ These are genuine records from the previous app configuration, but they are **no
 | [rest-00-prod-fail-closed.txt](../evidence/rest-00-prod-fail-closed.txt) | Previous Basic-auth config failed startup without `APP_SECURITY_USERNAME`/`APP_SECURITY_PASSWORD` |
 | [rest-01-prod-security-checks.txt](../evidence/rest-01-prod-security-checks.txt) | 19 of 19 checks matched against the prior Basic-auth configuration |
 
-Current production authentication is configured for OIDC JWT and PostgreSQL. No live OIDC issuer or PostgreSQL server was available, so both remain integration/deployment verification gaps.
+Production authentication is configured for OIDC JWT and PostgreSQL. Live issuer and PostgreSQL integration results are tracked as environment-specific release evidence in [the operational register](./OPERATIONS_AND_RELEASE_READINESS.md).
 
 ## Earlier general screenshots
 
@@ -67,7 +67,7 @@ Captured on 2026-10-16 with headless Edge against the packaged JAR on loopback (
 | [01-maven-verify-final-summary.png](../evidence/screenshots/01-maven-verify-final-summary.png) | Captured from the genuine final Maven output; shows 149 tests, 5 skips, `BUILD SUCCESS`, and BDD step totals |
 | [05-bdd-cucumber-final-report.png](../evidence/screenshots/05-bdd-cucumber-final-report.png) | Captured from the generated report after final `mvn clean verify`; 100% pass and all 3 feature files shown |
 | [02-cli-greenfield-succeeded.png](../evidence/screenshots/02-cli-greenfield-succeeded.png), [03-cli-brownfield-approval-safe-stop-resume.png](../evidence/screenshots/03-cli-brownfield-approval-safe-stop-resume.png), [04-cli-ambiguous-approval-resume.png](../evidence/screenshots/04-cli-ambiguous-approval-resume.png), [06-cli-ambiguous-rejected.png](../evidence/screenshots/06-cli-ambiguous-rejected.png) | Captured in a browser from the genuine CLI output transcripts; show greenfield success, brownfield pending/approval/safe-stop/resume, ambiguous approval/resume, and ambiguous rejection. These are transcript screenshots, not terminal-window captures |
-| Production-profile (OIDC/PostgreSQL) REST checks | **Blocked / missing**; no live IdP or PostgreSQL. Synthetic-JWT test-report screenshots are indexed separately under `evidence/api-tests/security/` and are not live HTTP evidence |
+| Production-profile (OIDC/PostgreSQL) REST checks | Environment-specific evidence not recorded; requires a live IdP and PostgreSQL. Synthetic-JWT test-report screenshots are indexed separately under `evidence/api-tests/security/` and are not live HTTP evidence |
 
 Precise Windows steps for remaining terminal/live items:
 

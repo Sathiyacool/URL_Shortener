@@ -28,7 +28,7 @@ Deployment profile and trust boundaries: production configuration exists; live P
 - Retries are bounded, then fallback, then reverse-order compensation.
 - Safe-stop is cooperative. `resume` requires `SAFE_STOPPED` or `AWAITING_APPROVAL` and clears the stop flag.
 - Dynamic replan invalidates only the affected downstream branch and records lineage.
-- Audit events are hash-chained; `/audit/verify` checks the chain. The anchor lives in the same database (a limitation).
+- Audit events are hash-chained; `/audit/verify` checks the chain. The anchor is stored in the same database; deployments requiring independent tamper evidence should add external signing or anchoring.
 
 ## REST endpoints (from controller source)
 
@@ -46,7 +46,7 @@ Deployment profile and trust boundaries: production configuration exists; live P
 - PostgreSQL values: `DATABASE_URL`, `DATABASE_USERNAME`, `DATABASE_PASSWORD`; DB TLS `DATABASE_SSL_MODE` defaults to `verify-full`; embedded URL credentials and disabled TLS are rejected. Migrations at `src/main/resources/db/migration`; `ddl-auto=validate`.
 - Protected in `prod`: approvals, runs, scenarios, metrics, stats and actuator (except health). Approver identity comes from JWT subject.
 - OpenAPI/Swagger routes are available for local development, disabled by `application-prod.yml`, and denied by the production security chain.
-- Not verified: live database/IdP, TLS gateway, rate limiting, DNS-rebinding/egress policy, backup/restore, crash recovery, multi-instance leases.
+- Environment-specific validation: live database/IdP, TLS gateway, rate limiting, DNS-rebinding/egress policy, backup/restore, crash recovery, and multi-instance leases.
 
 ## Approval gates
 

@@ -14,12 +14,12 @@ Implementation and test coverage are mapped by requirement in [TRACEABILITY.md](
 | Dependency DAG and execution | Implemented and tested | DAG validation, persisted task/run state, sequential and parallel scheduling, dependency synchronization, concurrency tests |
 | Approvals and change control | Implemented and tested | High-impact approval gates, pending/approve/reject/resume lifecycle, duplicate-decision conflicts, audit lineage |
 | Reliability behavior | Implemented and tested | Bounded retries, registered fallback, compensation, cooperative safe-stop/resume, replanning and reliability metrics |
-| Security boundaries | Implemented; some integration checks pending | Sandbox and policy checks, registered Java checks, no model-generated command execution, profile-specific authorization tests |
-| Production profile configuration | Implemented; target-environment verification pending | PostgreSQL/Flyway, schema validation, OIDC/JWT issuer/audience validation, operator scope and fail-closed configuration |
+| Security boundaries | Implemented; environment validation tracked | Sandbox and policy checks, registered Java checks, no model-generated command execution, profile-specific authorization tests |
+| Production profile configuration | Implemented; environment acceptance tracked | PostgreSQL/Flyway, schema validation, OIDC/JWT issuer/audience validation, operator scope and fail-closed configuration |
 | Assessment scenarios | Implemented and tested | Greenfield, brownfield, and ambiguous scenarios through REST, CLI, JUnit and Cucumber |
 | API contract and evidence | Verified for local profile | All 17 OpenAPI operations inventoried; 64 local HTTP checks; endpoint response screenshots and evidence index |
 | Automated tests | Verified with documented skips | Final `mvn -B clean verify`: 149 tests, 144 passed, 0 failures, 0 errors, 5 skipped; BDD 16 scenarios and 76 steps passed |
-| CI and supply-chain evidence | Defined; hosted execution pending | SHA-pinned GitHub Actions workflow, local `actionlint` check, OSV and working-tree secret scan outputs |
+| CI and supply-chain evidence | Defined; hosted execution evidence to be recorded | SHA-pinned GitHub Actions workflow, local `actionlint` check, OSV and working-tree secret scan outputs |
 | Documentation and handover | Implemented | Setup, architecture, scenarios, deployment, operations, traceability, evidence and Memory Bank |
 
 ## Recorded verification

@@ -1,6 +1,6 @@
 # Architecture
 
-The production profile is configured for PostgreSQL and OIDC/JWT; current automated verification uses H2 and MockMvc tokens, not live production services.
+The `prod` profile provides PostgreSQL/Flyway persistence and OIDC/JWT authorization. Local automated verification exercises the H2 profile and MockMvc security tests; environment-specific integration evidence is tracked in [operational release readiness](./OPERATIONS_AND_RELEASE_READINESS.md).
 
 ## Runtime overview
 

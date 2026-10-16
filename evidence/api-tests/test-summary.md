@@ -5,7 +5,7 @@
 
 ## Actual execution results
 
-| Check | Actual result | Evidence / limitation |
+| Check | Actual result | Evidence scope |
 |---|---|---|
 | Local HTTP endpoint smoke | **64 checks passed, 0 failed**. The live loopback checks assert response status, JSON fields, default expiry, redirect `Location`, click increment, orchestration state and error-body shape. | [`api-smoke-console.txt`](./api-smoke-console.txt); rerunnable with [`scripts/api-evidence-smoke.ps1`](../../scripts/api-evidence-smoke.ps1). This does not replace the full JUnit suite. |
 | URL journey | `POST /api/urls` returned `201`; `GET /{code}` returned `302` with the expected `Location` and returned `404` for an unknown code; `GET /api/urls/{code}/stats` returned `200` with exactly one click; expired redirect returned `410`. | Smoke transcript; redirect and unknown-code statuses appear in [`03-redirect-result-302-smoke.png`](./url-shortener/03-redirect-result-302-smoke.png), and the stats capture shows `totalClicks: 1`. |
@@ -69,18 +69,18 @@ For each local HTTP screenshot without a separate JUnit class named in its row, 
 | [`orchestration/27-approval-decision-response-200.png`](./orchestration/27-approval-decision-response-200.png) | `POST /api/approvals/{approvalId}` APPROVE | `200`, APPROVED → `200`, APPROVED | Swagger UI executed request/response; default profile; 2026-10-17; passed. |
 | [`orchestration/28-approval-reject-response-200.png`](./orchestration/28-approval-reject-response-200.png) | `POST /api/approvals/{approvalId}` REJECT | `200`, REJECTED → `200`, REJECTED | Swagger UI executed request/response; default profile; 2026-10-17; passed. |
 
-## Not captured / blocked evidence
+## Additional environment-specific evidence
 
-- Direct response evidence for the raw redirect `302` is a real `curl.exe -i --max-redirs 0` capture (Swagger/browsers follow redirects), not a Swagger panel. Direct Swagger executed-request/response panels now exist for per-run pending approvals, execute, safe-stop, replan (success and conflict) and approval decision (approve and reject). No placeholder images were created.
-- No live production `401`/`403` screenshots or live OIDC/JWKS verification. MockMvc synthetic JWT tests are not live identity-provider tests.
-- No live PostgreSQL result or screenshot. Testcontainers tests were skipped because Docker was unavailable.
-- These limitations do not convert the executed smoke/JUnit checks into live deployment evidence.
+- The raw redirect `302` is captured with a real `curl.exe -i --max-redirs 0` response (Swagger/browsers follow redirects), rather than a Swagger panel. Direct Swagger executed-request/response panels cover per-run pending approvals, execute, safe-stop, replan (success and conflict), and approval decisions (approve and reject). All indexed screenshots are original captures.
+- Production `401`/`403` HTTP captures and live OIDC/JWKS validation require a configured test identity provider. MockMvc synthetic JWT tests exercise the application security boundaries without representing a live identity-provider integration.
+- PostgreSQL-specific results require Docker/PostgreSQL; Testcontainers tests were skipped because Docker was unavailable during the recorded run.
+- Local smoke and JUnit results are scoped to their recorded profiles and environments; they are not substitutes for external integration evidence.
 
 ### Windows capture status
 
 The previously missing direct request/response captures were taken on 2026-10-17 (see index rows 04 and 22-28). Nothing in the local/default profile remains uncaptured. The remaining items below require external infrastructure.
 
-Production HTTP screenshots are blocked until a controlled test PostgreSQL instance and live test OIDC issuer are available. Once provisioned, set `SPRING_PROFILES_ACTIVE=prod`, the documented database settings, `APP_OIDC_ISSUER_URI`, and `APP_OIDC_AUDIENCE` in a protected PowerShell process environment, start the application, and use actual issuer-issued test tokens:
+Production HTTP screenshots require a controlled test PostgreSQL instance and live test OIDC issuer. Once provisioned, set `SPRING_PROFILES_ACTIVE=prod`, the documented database settings, `APP_OIDC_ISSUER_URI`, and `APP_OIDC_AUDIENCE` in a protected PowerShell process environment, start the application, and use actual issuer-issued test tokens:
 
 ```powershell
 curl.exe -i http://127.0.0.1:8099/api/scenarios
@@ -88,4 +88,4 @@ curl.exe -i -H "Authorization: Bearer $env:TEST_TOKEN_WITHOUT_OPERATOR_SCOPE" ht
 curl.exe -i -H "Authorization: Bearer $env:TEST_OPERATOR_TOKEN" http://127.0.0.1:8099/api/scenarios
 ```
 
-Expected statuses are `401`, `403`, and `200` respectively. Capture the request/response terminal using `Win+Shift+S`; keep token values out of visible commands/output and mask any credential-bearing headers before storing the PNG. Save only genuine captures under `security/` and update this table after observing the actual result. Without those services and real tokens, leave these checks marked blocked.
+Expected statuses are `401`, `403`, and `200` respectively. Capture the request/response terminal using `Win+Shift+S`; keep token values out of visible commands/output and mask any credential-bearing headers before storing the PNG. Save only genuine captures under `security/` and update this table after observing the actual result.

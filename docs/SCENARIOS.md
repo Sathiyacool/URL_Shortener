@@ -2,7 +2,7 @@
 
 Each scenario has a fixed task DAG and input, uses the deterministic mock LLM, and can be launched through REST or the Java CLI. The brownfield scenario performs real Java checks against the shortener; it does not invoke shell commands or arbitrary model-selected tests.
 
-**Deployment note:** these scenarios are assessment demonstrations, not production-readiness evidence. The production profile targets PostgreSQL and OIDC/JWT, but the current integration evidence uses H2 and MockMvc test tokens.
+**Deployment context:** the scenarios provide reproducible assessment workflows using the deterministic mock provider and local test profile. The `prod` profile targets PostgreSQL and OIDC/JWT; environment-specific integration evidence is maintained in [operational release readiness](./OPERATIONS_AND_RELEASE_READINESS.md).
 
 ## Starting the application
 

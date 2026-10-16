@@ -31,7 +31,7 @@ Raw output: [../evidence/load-test-results.txt](../evidence/load-test-results.tx
 
 Click analytics recorded exactly 200 of 200 redirects. Greenfield runs are slow because each run executes the full task DAG, with durable state transitions and audit hashing per step on an in-memory database, 8 at a time on 4 CPUs. Create-URL tail latency included JIT/warm-up. A single run is one sample; treat the numbers as indicative only.
 
-## Larger-scale plan (not executed)
+## Larger-scale validation plan
 
 Before any production claim, on a production-like environment (PostgreSQL, TLS gateway, real OIDC tokens):
 

@@ -13,7 +13,7 @@ Last updated: **2026-10-17**. Check `activeContext.md` for the most recent verif
 | [systemPatterns.md](./systemPatterns.md) | Architecture, components, DAG orchestration, persistence, REST, security, approval gates |
 | [techContext.md](./techContext.md) | Versions, dependencies, configuration, Windows notes, exact build/test commands |
 | [activeContext.md](./activeContext.md) | Current status, last verified results, open issues, next steps |
-| [progress.md](./progress.md) | Phases, verified features by requirement ID, outstanding work, limitations |
+| [progress.md](./progress.md) | Phases, verified features by requirement ID, release verification, technical boundaries |
 | [decisionLog.md](./decisionLog.md) | Significant decisions, alternatives, consequences |
 | [testStrategy.md](./testStrategy.md) | Test pyramid, responsibilities, data, security and evidence rules |
 

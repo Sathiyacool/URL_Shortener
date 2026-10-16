@@ -20,7 +20,7 @@ Configuration: [SecurityConfiguration](../src/main/java/com/schwab/agentic/secur
 
 The local-simulation tests use the production **validator composition** but not the production **decoder construction** (`withIssuerLocation`), because that performs network discovery.
 
-**Requires a live test identity provider (not verified):**
+**Live identity-provider validation scope:**
 
 - OIDC discovery document fetch and issuer match against `APP_OIDC_ISSUER_URI`.
 - JWKS retrieval over TLS, caching, and key rotation (new `kid`, retired keys).
@@ -39,13 +39,13 @@ A WireMock-based discovery/JWKS stub could exercise decoder construction, rotati
 | Double approval decision | Approval row lock; second decision throws `ApprovalAlreadyDecidedException` → 409 | `ApprovalApiIntegrationTest`; BDD "A decided approval cannot be decided a second time" | None. |
 | Retry bound | `RetryPolicy` max attempts 3, exponential delay, no retry after interrupt/stop | `ExecutionEngineIntegrationTest`; BDD retry exhaustion | None. |
 | Safe-stop / resume | Cooperative flag; consumed by `execute`, cleared by `resume` | JUnit lifecycle tests; BDD | A REST caller must resume to clear the flag before replanning (replan returns 409 while the flag is set). Documented behavior, left unchanged. |
-| Interrupted process (crash while `RUNNING`/`RETRYING`) | **Not implemented.** No startup reconciliation. A run left `RUNNING` is rejected by `execute` and `resume` ("not executable"/"Only safe-stopped or approval-paused runs"), so it is stuck until manual database repair. | No | Real gap. |
-| Approval expiry | **Not implemented.** Pending approvals wait indefinitely. | No | Real gap. |
+| Interrupted process (crash while `RUNNING`/`RETRYING`) | **Future implementation.** No startup reconciliation exists. A run left `RUNNING` is rejected by `execute` and `resume` ("not executable"/"Only safe-stopped or approval-paused runs") and requires operator intervention or database repair. | No | Product decision and recovery design required. |
+| Approval expiry | **Future implementation.** Pending approvals have no expiry policy. | No | Product decision required. |
 | Idempotency | No idempotency keys on `POST /api/urls` or `POST /api/runs`; repeating a call creates a new resource. Aliases are unique, so a duplicate alias conflicts. | Alias conflict covered in shortener tests | Gap for retried clients. |
 
-**Decision: no recovery or expiry code was added in this pass.** Crash recovery needs a design decision that the existing requirements do not make (resume versus fail versus compensate; lease timeouts; how to treat side effects of a half-run task) and cannot be verified without fault-injection against PostgreSQL. A reconciler that guessed wrongly could silently re-run a high-impact task that was already approved. Approval expiry needs a product decision (expiry period, auto-reject versus re-request). Both stay listed as production gates in [ASSESSMENT_READINESS.md](./ASSESSMENT_READINESS.md) with the proposed design below.
+**Recovery and expiry behavior remains deferred pending product decisions.** Crash recovery needs a policy choice not specified by the requirements (resume versus fail versus compensate; lease timeouts; treatment of side effects from an interrupted task) and PostgreSQL fault-injection evidence. An incorrect reconciler could repeat a high-impact task that was already approved. Approval expiry needs a product decision (expiry period, auto-reject versus re-request). Both are tracked in [OPERATIONS_AND_RELEASE_READINESS.md](./OPERATIONS_AND_RELEASE_READINESS.md) with candidate designs below.
 
-Proposed designs (not implemented):
+Candidate designs for a future implementation:
 
 - Startup reconciler: find runs in `RUNNING` with no heartbeat newer than a lease timeout, mark their in-flight tasks `FAILED` with reason `INTERRUPTED`, record an audit event, and move the run to `SAFE_STOPPED` so a human can resume or replan. Verify with a PostgreSQL fault-injection test (kill the process mid-run).
 - Approval expiry: add `expiresAt` to approval requests, a scheduled job that moves expired `PENDING` approvals to `EXPIRED` and the run to `SAFE_STOPPED`, audit-logged.

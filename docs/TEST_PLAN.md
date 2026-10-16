@@ -20,7 +20,7 @@ Verify the URL shortener, persisted orchestration engine, production security pr
 | JWT validation (local simulation) | Signature, expiry, issuer, audience and tamper rejection with throwaway RSA keys; not a live IdP | `OidcLocalKeyValidationTest` |
 | Load smoke | 200 creates, 200 redirects, 16 parallel runs over real HTTP; exact click count | `LoadSmokeTest`; plan in [LOAD_TEST_PLAN.md](./LOAD_TEST_PLAN.md) |
 | Supply chain | OSV dependency scan, secret scan; CI-only gitleaks | `scripts/osv-scan.ps1`, `scripts/secret-scan.ps1`; [SECURITY_SCANNING.md](./SECURITY_SCANNING.md) |
-| CI | `mvn -B clean verify` plus report upload on push/PR | `.github/workflows/ci.yml` (never executed yet) |
+| CI | `mvn -B clean verify` plus report upload on push/PR | `.github/workflows/ci.yml` (hosted execution evidence to be recorded) |
 | Full build | Compile, all test layers, packaging and Maven verification lifecycle | `mvn clean verify` |
 
 ## Acceptance checks
@@ -33,9 +33,9 @@ Verify the URL shortener, persisted orchestration engine, production security pr
 6. `mvn clean verify` exits successfully. Report actual run/failure/error/skip counts; do not treat an environment-dependent skip as a passed assertion.
 7. CLI scenario commands print their real status. Without `--decision`, brownfield and ambiguous runs stop at their approval. With `--decision=APPROVE|REJECT --approver=<name>` the CLI completes (or cancels) the run and, with `--safe-stop-before-resume`, demonstrates `SAFE_STOPPED` then resume.
 8. Production profile fails to start without a valid HTTPS OIDC issuer and audience; anonymous requests return `401`; a token without operator scope returns `403`; application errors return `400/404/409` with problem details.
-9. Flyway applies the initial schema and Hibernate validates mappings in H2 tests. `PostgresPersistenceContractTest` runs the same checks on PostgreSQL 16 when Docker is available (for example the CI `ubuntu-latest` runner); it was skipped on the author machine, so PostgreSQL behavior is unverified until it runs.
+9. Flyway applies the initial schema and Hibernate validates mappings in H2 tests. `PostgresPersistenceContractTest` runs the same checks on PostgreSQL 16 when Docker is available (for example the CI `ubuntu-latest` runner); it was skipped on the author machine. A Docker-enabled run will establish the PostgreSQL-specific result.
 10. The generated OpenAPI document contains the implemented REST operations and documented request/error shapes; the default profile serves Swagger UI while the production profile denies both documentation routes.
-11. Every discovered controller operation and generated OpenAPI/Swagger/Actuator route is inventoried and exercised by the local HTTP smoke script or a referenced automated test. The API evidence index maps each retained screenshot to its actual endpoint/result and marks production-only checks blocked when infrastructure is unavailable.
+11. Every discovered controller operation and generated OpenAPI/Swagger/Actuator route is inventoried and exercised by the local HTTP smoke script or a referenced automated test. The API evidence index maps each retained screenshot to its actual endpoint/result and records production-only checks as environment-specific when infrastructure is unavailable.
 
 ## Windows symbolic-link test
 

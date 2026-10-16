@@ -33,9 +33,9 @@ mvn spring-boot:run "-Dspring-boot.run.arguments=--scenario=brownfield --decisio
 
 CLI notes: headless mode needs `--spring.main.web-application-type=none`; avoid spaces in `--rationale` on Windows; optional `--safe-stop-before-resume`. Scenario IDs are listed in [docs/SCENARIOS.md](../docs/SCENARIOS.md).
 
-## Windows-specific limitations
+## Windows-specific verification
 
-- `ArtifactSandboxTest.rejectsSymlinkThatTargetsOutsideSandbox` is **skipped** when Windows denies symlink creation. Its escape assertion was not executed on this machine. Enable Developer Mode (or run elevated) to execute it. Do not weaken the test.
+- `ArtifactSandboxTest.rejectsSymlinkThatTargetsOutsideSandbox` is **skipped** when Windows denies symlink creation. Its escape assertion requires a host with symlink privileges. Enable Developer Mode (or run elevated) to execute it. Do not weaken the test.
 - PowerShell strips quotes in inline JSON passed to `curl.exe`; use `-d @file.json`.
 - Harmless warnings: Mockito JDK 21 dynamic-agent warning; Cucumber "classpath resource selector 'features'".
 

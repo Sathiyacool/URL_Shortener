@@ -1,10 +1,10 @@
 # Operational risk register and release readiness
 
-**Review date:** 2026-10-17. **Current release state:** Deployment configuration is implemented; target-environment acceptance remains pending. This document records the evidence and operational work required before a production rollout.
+**Review date:** 2026-10-17. Deployment configuration is implemented. This register records environment-specific evidence, product decisions, owners, and operational acceptance criteria for a production rollout.
 
 This register complements [the hardening review](./HARDENING_REVIEW.md), [assessment readiness](./ASSESSMENT_READINESS.md), [security scanning](./SECURITY_SCANNING.md), and [deployment guidance](./DEPLOYMENT.md). Statuses describe evidence in this repository and saved local results; they do not imply that an external environment has been validated.
 
-Status terms: **Implemented and tested**, **Partially verified**, **Not implemented**, **External validation pending**, or **Product decision required**.
+Status terms: **Implemented and tested**, **Partially verified**, **Future implementation**, **External validation required**, or **Product decision required**.
 
 ## Operational risk register
 
@@ -13,21 +13,21 @@ Status terms: **Implemented and tested**, **Partially verified**, **Not implemen
 | 1 | Duplicate or concurrent execution of one run | Partially verified | Pessimistic row lock and `@Version`; concurrency tests run on H2. PostgreSQL and multi-instance coordination have not been verified. |
 | 2 | Duplicate approval decision | Implemented and tested | A second decision returns `409`; covered by integration tests, BDD, and API smoke. |
 | 3 | Bounded retries | Implemented and tested | Three-attempt policy covered by engine tests and retry-exhaustion BDD. |
-| 4 | Recovery of runs interrupted in `RUNNING` or `RETRYING` | Not implemented; product decision required | No startup reconciler or heartbeat exists. A crashed run may remain non-resumable until operator intervention. See D1. |
-| 5 | Approval expiry | Not implemented; product decision required | Pending approvals do not expire automatically. See D2. |
-| 6 | Idempotency keys for create/execute requests | Not implemented; product decision required | Repeated URL or run creation requests can create distinct resources. See D3. |
-| 7 | Distributed ownership and leases | Not implemented | Execution coordination assumes a single service instance; database row locks are not a distributed lease/recovery design. |
-| 8 | PostgreSQL and Flyway behavior | External validation pending | Four `PostgresPersistenceContractTest` cases were skipped because Docker was unavailable. The corresponding H2 contract tests ran; PostgreSQL behavior remains unverified. |
-| 9 | OIDC discovery, JWKS, and production authorization | Partially verified; external validation pending | Synthetic JWT/MockMvc tests and a local RSA-key simulation cover route authorization, signatures, issuer/audience validation, and fail-closed configuration. No live issuer, JWKS rotation, or real claim mapping was tested. |
+| 4 | Recovery of runs interrupted in `RUNNING` or `RETRYING` | Future implementation; product decision required | Recovery policy, startup reconciliation, and heartbeat behavior are not part of the current implementation. A crashed run may require operator intervention. See D1. |
+| 5 | Approval expiry | Future implementation; product decision required | Pending approvals have no automatic expiry policy. See D2. |
+| 6 | Idempotency keys for create/execute requests | Future implementation; product decision required | Repeated URL or run creation requests can create distinct resources. See D3. |
+| 7 | Distributed ownership and leases | Future implementation | Execution coordination assumes a single service instance; database row locks do not provide distributed leases or recovery. |
+| 8 | PostgreSQL and Flyway behavior | External validation required | Four `PostgresPersistenceContractTest` cases were skipped because Docker was unavailable. The corresponding H2 contract tests ran; PostgreSQL-specific behavior requires a Docker-enabled run. |
+| 9 | OIDC discovery, JWKS, and production authorization | Partially verified; external validation required | Synthetic JWT/MockMvc tests and a local RSA-key simulation cover route authorization, signatures, issuer/audience validation, and fail-closed configuration. Live issuer, JWKS rotation, and real claim mapping require identity-provider validation. |
 | 10 | TLS termination | Deployment responsibility | The application profile requires database TLS; public transport TLS and backend network isolation must be provided by the deployment gateway/platform. |
-| 11 | Rate limiting and abuse controls | Not implemented in the application | Configure and test request, body-size, and abuse limits at a trusted gateway or add an application control. |
+| 11 | Rate limiting and abuse controls | Platform control required | The application has no in-process rate limiter; configure and test request, body-size, and abuse limits at a trusted gateway. |
 | 12 | Destination and egress protection | Partially verified | Literal private/local destinations are rejected. DNS resolution is intentionally not performed; DNS rebinding and public names resolving to private addresses require resolver/egress policy. Redirect targets are not revalidated at click time. |
 | 13 | Audit integrity and retention | Partially verified | A per-run hash chain detects ordinary edits, reordering, and truncation. The anchor is stored in the same database and is not externally signed or immutable. |
 | 14 | Dependency advisories | Partially verified | The 2026-10-17 OSV scan covered 98 runtime artifacts and reported two accepted critical `spring-webmvc:6.2.19` advisories, with zero unaccepted findings. The advisories remain present and are not resolved; rationale and review triggers are in [SECURITY_SCANNING.md](./SECURITY_SCANNING.md). |
 | 15 | Working-tree and Git-history secret scanning | Partially verified | Local scan (2026-10-17 01:40): 236 candidate files, zero unreadable files, zero unallowed matches, and four exact synthetic fixtures. Git-history scanning has not run locally. |
-| 16 | GitHub Actions | External validation pending | Workflow syntax passed the recorded local `actionlint` v1.7.12 check; no GitHub-hosted workflow run has occurred. |
-| 17 | Load, soak, and failure testing | Partially verified | Local HTTP smoke results are recorded in [LOAD_TEST_PLAN.md](./LOAD_TEST_PLAN.md). No production-like soak, fault-injection, PostgreSQL, or multi-instance test has been performed. |
-| 18 | Independent security assessment | Not performed | Schedule threat-model review and independent security testing against the release configuration and artifact. |
+| 16 | GitHub Actions | External validation required | Workflow syntax passed the recorded local `actionlint` v1.7.12 check; the first GitHub-hosted workflow result has not been recorded. |
+| 17 | Load, soak, and failure testing | Partially verified | Local HTTP smoke results are recorded in [LOAD_TEST_PLAN.md](./LOAD_TEST_PLAN.md). Production-like soak, fault-injection, PostgreSQL, and multi-instance results remain release evidence items. |
+| 18 | Independent security assessment | Future assurance activity | Schedule threat-model review and independent security testing against the release configuration and artifact. |
 
 ## Product decisions
 
