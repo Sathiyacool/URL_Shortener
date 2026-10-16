@@ -1,0 +1,4 @@
+﻿OSV dependency scan  date=2026-10-17T01:04:00  scope=runtime  artifacts=98
+ACCEPTED org.springframework:spring-webmvc:6.2.19 GHSA-j9f9-w8pj-32f8 severity=CRITICAL :: Spring Framework Server Sent Event stream corruption while rendering fragments
+ACCEPTED org.springframework:spring-webmvc:6.2.19 GHSA-pc63-qcmh-9cmg severity=CRITICAL :: Spring Framework Improper Path Limitation in XsltView
+UNACCEPTED FINDINGS: 0

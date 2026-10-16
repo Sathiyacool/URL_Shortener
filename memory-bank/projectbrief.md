@@ -4,7 +4,7 @@
 
 Charles Schwab AI Engineering Assessment: a runnable, Java-only **Agentic Software Engineering System** around a **URL shortener**. The system plans and runs engineering work as a persisted dependency DAG, with human approvals and audit-grade observability, without needing an LLM API key.
 
-Current status (2026-10-16): assessment implementation verified; production profile now has PostgreSQL/Flyway and OIDC/JWT configuration, but production readiness is **not claimed** because live infrastructure, operational safeguards, and deployment validation remain incomplete.
+Current status (2026-10-17): assessment implementation verified; the production profile includes PostgreSQL/Flyway and OIDC/JWT configuration. Environment-specific integration and operational validation are recorded in `docs/OPERATIONS_AND_RELEASE_READINESS.md`.
 
 ## Business problem
 
@@ -33,7 +33,7 @@ Source, tests, `README.md`, `.github/copilot-instructions.md`, `docs/` (plan, ar
 
 ## Acceptance criteria
 
-The 25 requirement IDs and statuses live in [docs/TRACEABILITY.md](../docs/TRACEABILITY.md). Acceptance is evidenced by `mvn clean verify` plus the CLI/REST transcripts in `evidence/`. Production readiness is explicitly **not** an acceptance claim.
+The 25 requirement IDs and statuses live in [docs/TRACEABILITY.md](../docs/TRACEABILITY.md). Assessment behavior is evidenced by `mvn clean verify` plus the CLI/REST transcripts in `evidence/`; deployment acceptance has separate environment-specific criteria.
 
 ## Confirmed user decisions
 

@@ -1,0 +1,32 @@
+﻿mvn -B clean verify on 2026-10-16T22:51:30 (JDK 21.0.12.1, Maven 3.9.11, Windows 11): BUILD SUCCESS
+TOTAL tests=149 failures=0 errors=0 skipped=5
+com.schwab.agentic.AgenticApplicationTest                                tests=  1 failures=0 errors=0 skipped=0
+com.schwab.agentic.agents.AgentProviderTest                              tests=  4 failures=0 errors=0 skipped=0
+com.schwab.agentic.agents.AgentTaskHandlerIntegrationTest                tests=  1 failures=0 errors=0 skipped=0
+com.schwab.agentic.api.ApiErrorContractTest                              tests=  5 failures=0 errors=0 skipped=0
+com.schwab.agentic.api.OpenApiIntegrationTest                            tests=  2 failures=0 errors=0 skipped=0
+com.schwab.agentic.audit.AuditMetricsIntegrationTest                     tests=  3 failures=0 errors=0 skipped=0
+com.schwab.agentic.bdd.RunCucumberTest                                   tests= 16 failures=0 errors=0 skipped=0
+com.schwab.agentic.guardrails.ArtifactSandboxTest                        tests=  4 failures=0 errors=0 skipped=1
+com.schwab.agentic.guardrails.ArtifactVersionServiceIntegrationTest      tests=  3 failures=0 errors=0 skipped=0
+com.schwab.agentic.guardrails.PolicyEngineTest                           tests=  4 failures=0 errors=0 skipped=0
+com.schwab.agentic.load.LoadSmokeTest                                    tests=  1 failures=0 errors=0 skipped=0
+com.schwab.agentic.orchestration.approval.ApprovalApiIntegrationTest     tests=  2 failures=0 errors=0 skipped=0
+com.schwab.agentic.orchestration.dag.DagValidatorTest                    tests=  5 failures=0 errors=0 skipped=0
+com.schwab.agentic.orchestration.engine.ExecutionEngineIntegrationTest   tests= 10 failures=0 errors=0 skipped=0
+com.schwab.agentic.orchestration.engine.OrchestrationPersistenceIntegrationTest tests=  2 failures=0 errors=0 skipped=0
+com.schwab.agentic.orchestration.engine.RunStateMachineTest              tests=  2 failures=0 errors=0 skipped=0
+com.schwab.agentic.orchestration.engine.TaskStateMachineTest             tests=  3 failures=0 errors=0 skipped=0
+com.schwab.agentic.orchestration.replan.DynamicReplanServiceIntegrationTest tests=  6 failures=0 errors=0 skipped=0
+com.schwab.agentic.persistence.H2PersistenceContractTest                 tests=  4 failures=0 errors=0 skipped=0
+com.schwab.agentic.persistence.PostgresPersistenceContractTest           tests=  4 failures=0 errors=0 skipped=4
+com.schwab.agentic.scenarios.ScenarioApiIntegrationTest                  tests=  3 failures=0 errors=0 skipped=0
+com.schwab.agentic.scenarios.ScenarioCliRunnerTest                       tests= 10 failures=0 errors=0 skipped=0
+com.schwab.agentic.scenarios.ScenarioLifecycleIntegrationTest            tests=  5 failures=0 errors=0 skipped=0
+com.schwab.agentic.security.OidcLocalKeyValidationTest                   tests=  6 failures=0 errors=0 skipped=0
+com.schwab.agentic.security.ProductionAuthorizationBoundaryTest          tests=  4 failures=0 errors=0 skipped=0
+com.schwab.agentic.security.ProductionFailClosedTest                     tests=  1 failures=0 errors=0 skipped=0
+com.schwab.agentic.security.ProductionSecurityIntegrationTest            tests=  2 failures=0 errors=0 skipped=0
+com.schwab.agentic.security.SecurityConfigurationTest                    tests=  2 failures=0 errors=0 skipped=0
+com.schwab.agentic.shortener.api.ShortUrlApiIntegrationTest              tests=  6 failures=0 errors=0 skipped=0
+com.schwab.agentic.shortener.service.ShortUrlServiceTest                 tests= 28 failures=0 errors=0 skipped=0

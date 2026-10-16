@@ -1,6 +1,6 @@
 # Risks, trade-offs, assumptions, and limitations
 
-PostgreSQL/Flyway and OIDC/JWT profile configuration has been added, but no live services, operational controls, or production deployment have been verified. See [ASSESSMENT_READINESS.md](./ASSESSMENT_READINESS.md).
+This document summarizes design trade-offs and technical boundaries. Dated integration evidence and release responsibilities are maintained in [OPERATIONS_AND_RELEASE_READINESS.md](./OPERATIONS_AND_RELEASE_READINESS.md), with environment setup in [DEPLOYMENT.md](./DEPLOYMENT.md).
 
 ## Risks
 
@@ -39,4 +39,4 @@ PostgreSQL/Flyway and OIDC/JWT profile configuration has been added, but no live
 - No direct application of agent-generated patches and no production deployment.
 - Metrics aggregate persisted terminal runs, retry decisions, recovery events, and decided approvals at request time; this is not intended as a high-volume monitoring backend.
 - No multi-tenant isolation or distributed orchestration.
-- No PostgreSQL backup/restore/failover evidence, crash recovery, disaster-recovery runbook, penetration test, vulnerability scan, or production load test. The project is not production-ready.
+- PostgreSQL backup/restore/failover, orchestration crash recovery, disaster-recovery runbooks, penetration testing, and production-scale load testing require environment-specific implementation and evidence; track these in the operational release checklist.

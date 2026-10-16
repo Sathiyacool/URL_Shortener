@@ -60,13 +60,17 @@ public class SecurityConfiguration {
             @Value("${app.security.audience:}") String audience) {
         validateOidcConfiguration(issuerUri, audience);
         NimbusJwtDecoder decoder = NimbusJwtDecoder.withIssuerLocation(issuerUri).build();
+        decoder.setJwtValidator(productionTokenValidator(issuerUri, audience));
+        return decoder;
+    }
+
+    static OAuth2TokenValidator<Jwt> productionTokenValidator(String issuerUri, String audience) {
         OAuth2TokenValidator<Jwt> issuerValidator = JwtValidators.createDefaultWithIssuer(issuerUri);
         OAuth2TokenValidator<Jwt> audienceValidator = audienceValidator(audience);
-        decoder.setJwtValidator(jwt -> {
+        return jwt -> {
             OAuth2TokenValidatorResult issuerResult = issuerValidator.validate(jwt);
             return issuerResult.hasErrors() ? issuerResult : audienceValidator.validate(jwt);
-        });
-        return decoder;
+        };
     }
 
     static void validateOidcConfiguration(String issuerUri, String audience) {

@@ -4,7 +4,7 @@ A Java 21 / Spring Boot application and agent orchestration demonstration for th
 
 ## Status
 
-**Assessment demonstration.** P0–P13 assessment, production-profile hardening, OpenAPI, and Copilot handover phases are complete. The production profile targets PostgreSQL with Flyway-managed schema and OIDC/JWT bearer-token authentication; the default profile remains loopback-only with in-memory H2. OpenAPI/Swagger documentation is available in the default profile and disabled/denied in `prod`. These are code/configuration changes, not evidence of a deployed or operationally ready service. See [docs/ASSESSMENT_READINESS.md](docs/ASSESSMENT_READINESS.md), [docs/PLAN.md](docs/PLAN.md), and [docs/RISKS_TRADEOFFS.md](docs/RISKS_TRADEOFFS.md) for implemented scope and remaining controls.
+**Production-oriented assessment application.** The project combines a Spring Boot URL shortener with a persisted agent-orchestration engine, REST and CLI interfaces, policy-checked artifact handling, auditable approvals, and repeatable assessment scenarios. The repository includes a loopback/H2 demonstration profile and a PostgreSQL/Flyway/OIDC production profile, with test evidence and environment-specific deployment requirements documented separately. See [Architecture](docs/ARCHITECTURE.md), [Deployment](docs/DEPLOYMENT.md), [Assessment readiness](docs/ASSESSMENT_READINESS.md), and [Operational risk and release readiness](docs/OPERATIONS_AND_RELEASE_READINESS.md).
 
 The URL shortener supports creation, redirects, configurable expiration, and click analytics. The orchestration core persists and executes dependency DAGs with parallel/sequential scheduling, retries, fallback, compensation, safe-stop/resume, high-impact approval gates, hash-chained audit history, reliability metrics, and dynamic replanning. The three assessment scenarios are available through REST and the Java CLI. See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) and [docs/SCENARIOS.md](docs/SCENARIOS.md) for design and reproducible workflows.
 
@@ -75,33 +75,32 @@ Agents write only policy-checked artifacts under the configured sandbox. Brownfi
 
 In the default local profile, the generated OpenAPI 3 contract is available at `http://127.0.0.1:8080/v3/api-docs` and Swagger UI at `http://127.0.0.1:8080/swagger-ui/index.html` (also linked at `/swagger-ui.html`). It documents request/response schemas, validation and error statuses, redirect behavior, and the production bearer-token scope requirement. OpenAPI and Swagger UI are disabled in `prod` and their routes are denied by the production security chain. Do not expose the unauthenticated local profile on a shared network.
 
-## Security profiles
+## API testing evidence
 
-- **Default/local:** binds to loopback and allows local demo requests without authentication. Do not expose this profile on a shared or public network.
-- **Production profile:** configure `SPRING_PROFILES_ACTIVE=prod`, `DATABASE_URL` (PostgreSQL JDBC URL without embedded credentials), `DATABASE_USERNAME`, `DATABASE_PASSWORD`, optional `DATABASE_SSL_MODE` (`verify-full` by default; only TLS modes accepted), `APP_OIDC_ISSUER_URI` (HTTPS issuer), and `APP_OIDC_AUDIENCE`. The application validates the OIDC issuer and audience and requires the `agentic.operator` scope for runs, approvals, scenarios, metrics, actuator (except health), and click analytics. Approval audit identity comes from the JWT subject, not a caller-supplied name. Use a secret manager; never place secret values in source control.
-- **Deployment boundary:** terminate TLS at a trusted gateway, restrict direct access to the service, and configure gateway rate limits/abuse controls. The application does not implement TLS termination or rate limiting. URL destination validation does not resolve DNS, so enforce egress/DNS controls at the gateway/runtime.
-- **Verification boundary:** production-profile authorization and Flyway schema validation are exercised with test JWTs and H2; no live OIDC issuer or PostgreSQL server was available for this verification. Do not treat profile configuration as production certification.
+The complete controller and generated-endpoint inventory, rerunnable local HTTP smoke script, actual results, and genuine PNG index are in [evidence/api-tests/README.md](evidence/api-tests/README.md) and [evidence/api-tests/endpoint-inventory.md](evidence/api-tests/endpoint-inventory.md). The latest recorded local smoke run on 2026-10-17 exercised all 17 OpenAPI operations plus generated OpenAPI/Swagger and Actuator routes: **64 checks passed, 0 failed**. Assertions validate response JSON fields, default expiry, redirect status and `Location`, click-count increment, orchestration lifecycle state, and error-body shapes. Representative screenshots cover URL creation, validation errors, the raw redirect response, orchestration approval/rejection and safe-stop/resume, and health/Actuator. The click-statistics capture shows one click after the smoke-tested `302` redirect; the direct `302`/`Location` is also shown in the genuine curl response screenshot.
 
-## Tests
+The API capture run uses the default local profile, loopback binding, H2, and synthetic data. The screenshot index distinguishes executed HTTP responses from synthetic-JWT test reports and records the profile and verification source for each capture. Environment-specific integration evidence is tracked in [docs/OPERATIONS_AND_RELEASE_READINESS.md](docs/OPERATIONS_AND_RELEASE_READINESS.md).
 
-Run `mvn clean verify` for the complete suite, including Cucumber feature tests. Last verified 2026-10-16 after OpenAPI and documentation updates: **114 tests, 0 failures, 0 errors, 1 skipped (113 passed); BDD 6 scenarios / 22 steps passed**. Coverage includes context startup, URL validation/expiry/analytics, OIDC authorization boundaries (401/403/fail-closed), generated OpenAPI contract and production documentation denial, API error contract, Flyway/H2 schema validation, execution concurrency, DAG/state transitions, retries/fallback/rollback/safe-stop, approval lifecycles, guardrails, replanning, scenarios, metrics, and audit integrity. Production OIDC issuer and PostgreSQL connectivity are **not** end-to-end tested. Requirement IDs (`REQ-nn`) are defined in [docs/TRACEABILITY.md](docs/TRACEABILITY.md). See also [docs/TEST_PLAN.md](docs/TEST_PLAN.md), [docs/TEST_RESULTS.md](docs/TEST_RESULTS.md), [docs/ASSESSMENT_READINESS.md](docs/ASSESSMENT_READINESS.md), and [docs/EVIDENCE.md](docs/EVIDENCE.md). Screenshots have not been captured; text transcripts are in [evidence/](evidence/). The symlink escape test is preserved; on Windows it is skipped only when the OS refuses link creation.
+## Deployment and security
+
+- **Local profile:** uses in-memory H2, binds to `127.0.0.1`, and enables Swagger/OpenAPI for development and assessment walkthroughs.
+- **Production profile:** targets PostgreSQL with Flyway migrations and schema validation, requires database TLS configuration, and uses OIDC/JWT issuer and audience validation with the `agentic.operator` scope for operator routes. Swagger/OpenAPI are disabled. Configure credentials through a secret manager.
+- **Platform controls:** provide external HTTPS termination, backend network restrictions, rate and body-size limits, egress/DNS policy, database backup and recovery, monitoring, and deployment rollback procedures. Detailed startup requirements and validation steps are in [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md); current verification and outstanding operational decisions are in [docs/OPERATIONS_AND_RELEASE_READINESS.md](docs/OPERATIONS_AND_RELEASE_READINESS.md).
+
+## Verification and evidence
+
+Run `mvn -B clean verify` for unit, integration, and Cucumber coverage. The recorded 2026-10-17 run completed with **149 tests, 144 passed, 0 failures, 0 errors, and 5 skipped**; all 16 BDD scenarios and 76 steps passed. The skips are one Windows symlink-creation permission case and four PostgreSQL/Testcontainers cases skipped because Docker was unavailable. The local API smoke exercised all 17 OpenAPI operations plus generated Swagger/OpenAPI and Actuator routes: **64 checks passed**. Detailed test, scan, and screenshot records are in [docs/TEST_RESULTS.md](docs/TEST_RESULTS.md), [docs/EVIDENCE.md](docs/EVIDENCE.md), and [evidence/api-tests/test-summary.md](evidence/api-tests/test-summary.md). The test-environment boundaries and release verification steps are documented in [docs/OPERATIONS_AND_RELEASE_READINESS.md](docs/OPERATIONS_AND_RELEASE_READINESS.md).
 
 ## Project Memory Bank
 
 [memory-bank/](memory-bank/README.md) is a repository-based handover for Copilot Agent sessions: read `memory-bank/README.md` first, then inspect the real source and `git diff`. It summarizes and links to the canonical docs and never replaces source code or test execution.
 The reusable repository-wide startup and completion workflow is in [.github/copilot-instructions.md](.github/copilot-instructions.md).
 
-## Current limitations and risks
+## Supporting documentation
 
-- The default database is in-memory H2: demo runs, approvals, and audit history are lost on restart. Production configuration targets PostgreSQL, but a live PostgreSQL deployment, backups, failover, restore drills, and operational tuning are not verified.
-- Production authentication uses OIDC JWT validation and requires issuer/audience configuration plus `agentic.operator` scope. A live identity provider, key rotation, issuer outage behavior, and end-to-end token validation are not verified.
-- TLS and request rate limiting are deployment gateway controls; there is no checked-in gateway configuration or load/abuse test.
-- Crash recovery for interrupted orchestration runs, multi-instance scheduling/leases, and HA are not implemented or tested.
-- Audit hash anchors remain in the same database and are not externally signed/anchored.
-- No dependency vulnerability scan, penetration test, disaster recovery exercise, or production operational runbook has been completed.
-- The default LLM is deterministic mock output; no production provider, model evaluation, or model-quality guarantee is included.
-- Generated code is proposal text in the sandbox, not applied to the application. Build/test tasks are fixed registered Java checks, not arbitrary shell execution.
-- Production authorization relies on OIDC JWTs and one required operator scope; role/tenant lifecycle, provider-specific claim mapping, credential operations, and live IdP verification remain deployment work.
-- Host policy is intentionally DNS-independent. A hostname that resolves to a private address, DNS rebinding, and external open-redirect abuse require gateway/resolver controls or an allowlist policy.
-- There is no in-process rate limiter; production deployments must enforce rate limits at a trusted gateway.
-- Event hashes and the chain-tip anchor are stored in the same database. This detects ordinary edits, reordering, and truncation but is not a signed or externally anchored non-repudiation system.
+- [Architecture and security model](docs/ARCHITECTURE.md)
+- [Deployment guide](docs/DEPLOYMENT.md)
+- [Operational risk register and release readiness](docs/OPERATIONS_AND_RELEASE_READINESS.md)
+- [Security scanning and advisory review](docs/SECURITY_SCANNING.md)
+- [Assessment scenarios](docs/SCENARIOS.md)
+- [Requirements traceability](docs/TRACEABILITY.md)

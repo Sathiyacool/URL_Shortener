@@ -1,0 +1,76 @@
+﻿
+Name                                        Method Path                                                             Exp
+                                                                                                                    ect
+                                                                                                                    edS
+                                                                                                                    tat
+                                                                                                                     us
+----                                        ------ ----                                                             ---
+OpenAPI document                            GET    /v3/api-docs                                                     200
+OpenAPI YAML document                       GET    /v3/api-docs.yaml                                                200
+Swagger UI                                  GET    /swagger-ui/index.html                                           200
+Swagger UI redirect                         GET    /swagger-ui.html                                                 302
+Swagger config                              GET    /v3/api-docs/swagger-config                                      200
+Actuator discovery root                     GET    /actuator                                                        200
+Health                                      GET    /actuator/health                                                 200
+Info                                        GET    /actuator/info                                                   200
+Actuator metrics                            GET    /actuator/metrics                                                200
+Actuator metric detail                      GET    /actuator/metrics/jvm.memory.used                                200
+Readiness group is not configured           GET    /actuator/health/readiness                                       404
+Liveness group is not configured            GET    /actuator/health/liveness                                        404
+Actuator env is not exposed                 GET    /actuator/env                                                    404
+Actuator heapdump is not exposed            GET    /actuator/heapdump                                               404
+Create URL                                  POST   /api/urls                                                        201
+URL stats before redirect                   GET    /api/urls/ev669504/stats                                         200
+Redirect                                    GET    /ev669504                                                        302
+Unknown short code                          GET    /NoSuchCode                                                      404
+URL stats after redirect                    GET    /api/urls/ev669504/stats                                         200
+Duplicate alias                             POST   /api/urls                                                        409
+Unsafe URL scheme                           POST   /api/urls                                                        400
+Missing required URL                        POST   /api/urls                                                        400
+Unknown URL stats                           GET    /api/urls/NoSuchCode/stats                                       404
+Create expiring URL                         POST   /api/urls                                                        201
+Expired redirect                            GET    /VsDjrKb                                                         410
+Scenario catalog                            GET    /api/scenarios                                                   200
+Unknown scenario                            POST   /api/scenarios/not-a-scenario/run                                400
+Greenfield scenario run                     POST   /api/scenarios/greenfield/run                                    200
+Scenario run state                          GET    /api/runs/8cec7ef2-3f02-4c1f-bbef-8bbaf06684dd                   200
+Scenario audit history                      GET    /api/runs/8cec7ef2-3f02-4c1f-bbef-8bbaf06684dd/audit             200
+Scenario audit verification                 GET    /api/runs/8cec7ef2-3f02-4c1f-bbef-8bbaf06684dd/audit/verify      200
+Scenario pending approvals                  GET    /api/runs/8cec7ef2-3f02-4c1f-bbef-8bbaf06684dd/approvals/pending 200
+Run creation rejects empty task list        POST   /api/runs                                                        400
+Unknown run state                           GET    /api/runs/00000000-0000-0000-0000-000000000000                   404
+Create run                                  POST   /api/runs                                                        201
+Run details                                 GET    /api/runs/5b5042de-c62d-4ece-876d-794cbbbcd2d6                   200
+Run audit history                           GET    /api/runs/5b5042de-c62d-4ece-876d-794cbbbcd2d6/audit             200
+Run audit verification                      GET    /api/runs/5b5042de-c62d-4ece-876d-794cbbbcd2d6/audit/verify      200
+Run approvals list                          GET    /api/runs/5b5042de-c62d-4ece-876d-794cbbbcd2d6/approvals/pending 200
+Execute run                                 POST   /api/runs/5b5042de-c62d-4ece-876d-794cbbbcd2d6/execute           200
+Replan completed run                        POST   /api/runs/5b5042de-c62d-4ece-876d-794cbbbcd2d6/replan            200
+Replanned task graph is persisted           GET    /api/runs/5b5042de-c62d-4ece-876d-794cbbbcd2d6                   200
+Create safe-stop run                        POST   /api/runs                                                        201
+Request safe-stop                           POST   /api/runs/0be192b2-0ff3-407a-a4a3-f600fdf76a54/safe-stop         200
+Execute safe-stopped run                    POST   /api/runs/0be192b2-0ff3-407a-a4a3-f600fdf76a54/execute           200
+Resume safe-stopped run                     POST   /api/runs/0be192b2-0ff3-407a-a4a3-f600fdf76a54/resume            200
+Safe-stop run state persisted               GET    /api/runs/0be192b2-0ff3-407a-a4a3-f600fdf76a54                   200
+Brownfield run creates approval             POST   /api/scenarios/brownfield/run                                    200
+Brownfield pending approval list            GET    /api/runs/a7f72101-8a1e-411d-8746-8ca3a2867262/approvals/pending 200
+Blank approver is rejected                  POST   /api/approvals/bd326b07-8773-41a2-9c5b-8be9d00b0090              400
+Replan is blocked while approval is pending POST   /api/runs/a7f72101-8a1e-411d-8746-8ca3a2867262/replan            409
+Approve brownfield checkpoint 1             POST   /api/approvals/bd326b07-8773-41a2-9c5b-8be9d00b0090              200
+Resume approved brownfield run 1            POST   /api/runs/a7f72101-8a1e-411d-8746-8ca3a2867262/resume            200
+Brownfield pending approvals after resume 1 GET    /api/runs/a7f72101-8a1e-411d-8746-8ca3a2867262/approvals/pending 200
+Brownfield run completes after approval     GET    /api/runs/a7f72101-8a1e-411d-8746-8ca3a2867262                   200
+Global pending approval list                GET    /api/approvals/pending                                           200
+Unknown approval                            POST   /api/approvals/00000000-0000-0000-0000-000000000000              404
+Brownfield run for rejection                POST   /api/scenarios/brownfield/run                                    200
+Pending approval for rejection              GET    /api/runs/57d424b8-f34c-44a6-bb9a-499e03fc9905/approvals/pending 200
+Reject pending approval                     POST   /api/approvals/5232d180-dc9d-4f9a-8cc0-cd82d02423ac              200
+Second decision on approval                 POST   /api/approvals/5232d180-dc9d-4f9a-8cc0-cd82d02423ac              409
+Resume rejected terminal run conflicts      POST   /api/runs/57d424b8-f34c-44a6-bb9a-499e03fc9905/resume            409
+Rejected run state                          GET    /api/runs/57d424b8-f34c-44a6-bb9a-499e03fc9905                   200
+Reliability metrics                         GET    /api/metrics/reliability                                         200
+
+
+TOTAL=64 PASSED=64 FAILED=0
+URL_ALIAS=ev669504 URL_CODE=ev669504 REDIRECT_LOCATION=https://example.com/api-evidence URL_STATS_TOTAL_CLICKS=1
+GREENFIELD_RUN_ID=8cec7ef2-3f02-4c1f-bbef-8bbaf06684dd BROWNFIELD_RUN_ID=a7f72101-8a1e-411d-8746-8ca3a2867262 APPROVAL_ROUNDS=1 REJECTED_RUN_ID=57d424b8-f34c-44a6-bb9a-499e03fc9905 REJECTED_STATE=CANCELLED RUN_ID=5b5042de-c62d-4ece-876d-794cbbbcd2d6 SAFESTOP_RUN_ID=0be192b2-0ff3-407a-a4a3-f600fdf76a54

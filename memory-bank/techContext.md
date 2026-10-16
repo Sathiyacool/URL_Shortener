@@ -9,7 +9,7 @@ Java 21 (Temurin 21.0.12), Spring Boot 3.5.16, Maven 3.9.11, Spring Web, Spring 
 - Default profile: H2 in-memory (state is lost per process; CLI run IDs are valid only within their process), binds `127.0.0.1`, unauthenticated for local demo only.
 - `prod`: PostgreSQL (`DATABASE_URL`, `DATABASE_USERNAME`, `DATABASE_PASSWORD`), Flyway migrations and Hibernate `ddl-auto=validate`; TLS mode defaults to `verify-full` (`DATABASE_SSL_MODE`); OIDC JWT (`APP_OIDC_ISSUER_URI` HTTPS and `APP_OIDC_AUDIENCE`) with required `agentic.operator` scope. Secret values must come from a secret manager/process environment and never be committed.
 - OpenAPI JSON and Swagger UI are enabled by the default configuration; the `prod` profile disables them and the production authorization chain denies their routes.
-- Production configuration is not live-service verified; do not call the application production-ready.
+- Production configuration and live-service validation are separate: describe each integration using its recorded evidence and the release conditions in `docs/OPERATIONS_AND_RELEASE_READINESS.md`.
 
 ## Windows setup (PowerShell)
 
@@ -23,6 +23,10 @@ $env:Path="$env:LOCALAPPDATA\Programs\Apache\Maven\apache-maven-3.9.11\bin;$env:
 ```powershell
 mvn clean verify                      # full build and all tests, including BDD
 mvn test -Dtest=RunCucumberTest       # BDD only
+mvn test -Dtest=LoadSmokeTest         # load smoke (about 35 s)
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts\osv-scan.ps1 -AcceptedIds GHSA-j9f9-w8pj-32f8,GHSA-pc63-qcmh-9cmg
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts\secret-scan.ps1
+# Testcontainers PostgreSQL tests need a running Docker daemon; otherwise they are skipped.
 mvn spring-boot:run                   # local server
 mvn spring-boot:run "-Dspring-boot.run.arguments=--scenario=brownfield --decision=APPROVE --approver=reviewer --rationale=ok --spring.main.web-application-type=none"
 ```

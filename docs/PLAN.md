@@ -1,6 +1,6 @@
 # Plan: Agentic Software Engineering System for a URL Shortener
 
-Status: P0–P14 assessment, production-profile hardening, OpenAPI, Copilot handover, final verification, and publication are complete. Commit `cbbbbd2` was pushed normally to `https://github.com/Sathiyacool/URL_Shortener` on `main`; the branch was clean and tracking `origin/main` after push. Final `mvn clean verify`: 114 tests (113 passed, 0 failures, 0 errors, 1 Windows setup skip); explicit BDD: 6 scenarios / 22 steps, no failures or skips. This does **not** establish production readiness; live PostgreSQL/OIDC verification and operational controls remain outstanding.
+Status: P0–P14 were published previously (`cbbbbd2`, `d7ecc18`). P15 production-profile hardening and P16 API endpoint/screenshot evidence are complete locally but remain **uncommitted**; no commit or push was made for these changes. Latest `mvn -B clean verify` (2026-10-17 00:59:33 +05:30): 149 tests, 144 passed, 0 failures, 0 errors, 5 skipped; explicit and full-suite BDD: 3 feature files, 16 scenarios / 76 steps passed. Latest local API smoke: 64/64 checks passed. Live PostgreSQL/OIDC integration and environment-specific operational evidence are tracked in [OPERATIONS_AND_RELEASE_READINESS.md](./OPERATIONS_AND_RELEASE_READINESS.md).
 
 ## Reassessment and prioritized extension plan
 
@@ -12,8 +12,8 @@ The following is a code-and-documentation review against the supplied assessment
 | P1 | RULE — safety, approval, policy | Existing allow-listed Java checks, sandbox/secret guardrails, high-impact approval gates, and no model-generated command execution are covered by code/tests. | Preserve these controls; rerun guardrail and lifecycle tests after API/documentation changes. |
 | P1 | AIU — AI/provider use | `LlmProvider` and deterministic mock are implemented; no live model or model-quality evidence exists. | Keep the provider boundary; document the mock-only limitation and do not introduce arbitrary command execution. |
 | P1 | AGT — agent orchestration | Persisted DAG, scheduler, task state, retry/fallback/compensation, safe-stop, audit, and replanning exist. | Verify no behavioral regressions with targeted and full suites; retain explicit approval for risky tasks. |
-| P1 | TST — test quality/evidence | Latest clean run: 114 tests, 113 passed, no failures/errors, 1 Windows symlink skip; explicit BDD: 6 scenarios / 22 steps passed. | P14 exit evidence is captured in `TEST_RESULTS.md` and `evidence/production-hardening-test-summary.txt`; screenshot evidence remains missing. |
-| P1 | PRD — operational readiness | Code-level PostgreSQL/OIDC profile is present, but no live DB/IdP, gateway, abuse, recovery, CVE, penetration, or load evidence. | Keep readiness decision NO-GO; list missing gates and captured evidence status without claiming production readiness. |
+| P1 | TST — test quality/evidence | Final clean run: 149 tests, 144 passed, no failures/errors, 5 skipped (1 Windows symlink, 4 PostgreSQL/Docker); BDD 16 scenarios / 76 steps passed. API endpoint smoke 64/64; 40 API images indexed. | Latest Maven output, prior same-count Maven screenshot, BDD report screenshot, API endpoint inventory and image index in `evidence/`; live production-auth evidence remains blocked. |
+| P1 | PRD — operational readiness | PostgreSQL/OIDC profiles and deployment controls are documented; some target-environment checks remain pending. | Track named owners, evidence, and release acceptance in `OPERATIONS_AND_RELEASE_READINESS.md`. |
 | P2 | OWN — ownership and continuity | `.github/copilot-instructions.md` and `memory-bank/` provide linked startup and completion workflows. | P13 exit evidence: manual review against the Memory Bank and canonical documentation. |
 | P2 | Release and change control | Commit `cbbbbd2` contains the reviewed changes and required co-author attribution. | P14: pushed normally to `origin/main`; no force-push; post-push status was clean and synchronized. |
 
@@ -126,6 +126,8 @@ P2..P7 -> P8 metrics/hash-chained audit -> P9 integration hardening + documentat
 | P12 | OpenAPI/Swagger contract and safe profile exposure (REQ-24) | Complete; focused integration tests pass for local docs and production denial |
 | P13 | Reusable Copilot Agent instructions and Memory Bank/doc alignment (REQ-25) | Complete; startup/update workflow checked in and docs reconciled |
 | P14 | Final verification, evidence review, commit and push | Full/BDD tests passed with documented skip; commit `cbbbbd2` pushed normally to the specified remote |
+| P15 | Hardening review: CI, expanded BDD, CLI test, Testcontainers, OIDC review, recovery review, scans, load smoke, screenshots, doc reconciliation (REQ-26..28) | Code/test/scan work complete and verified locally (149 tests, 5 skipped); CI never run on GitHub; PostgreSQL test skipped (no Docker); not committed |
+| P16 | API endpoint inventory, semantic local HTTP smoke, and screenshot evidence (REQ-29) | 17 OpenAPI operations inventoried; 64/64 local smoke checks passed; 40 API PNGs indexed; production auth/PostgreSQL remain blocked; not committed |
 
 ### Phase progress
 
@@ -186,21 +188,39 @@ P2..P7 -> P8 metrics/hash-chained audit -> P9 integration hardening + documentat
 - Production configuration now targets PostgreSQL, applies Flyway schema migrations, and uses Hibernate `ddl-auto=validate`; local/test profile remains H2.
 - Replaced HTTP Basic with OIDC JWT resource-server authentication, HTTPS issuer validation, required audience validation, and `agentic.operator` scope. Approval attribution uses the JWT subject.
 - P11 completion verification at that phase: **111 tests, 0 failures, 0 errors, 1 skipped; BUILD SUCCESS**. The later P14 verification below supersedes those counts.
-- Verification boundary: migrations/schema ran against H2 and authorization used MockMvc JWT test tokens. No real PostgreSQL server, OIDC issuer, TLS gateway, rate-limit policy, backups/restore, or live deployment was available. P11 implementation is complete; production readiness is not claimed.
+- Verification boundary: migrations/schema ran against H2 and authorization used MockMvc JWT test tokens. A real PostgreSQL server, OIDC issuer, TLS gateway, rate-limit policy, backups/restore, and deployed environment were not available. The implementation details and remaining environment checks are recorded in the operational release register.
 
 ### P12–P14 complete through verification (2026-10-16)
 
 - P12 added springdoc-openapi 2.9.1, endpoint/request documentation, local Swagger UI, production-profile disablement, and explicit production security denial. Focused OpenAPI/security tests: 6 passed.
 - P13 added `.github/copilot-instructions.md` and reconciled the Memory Bank, requirement IDs, README, readiness report, and test evidence.
-- P14 `mvn clean verify`: **114 tests, 113 passed, 0 failures, 0 errors, 1 skipped; BUILD SUCCESS**. Explicit `mvn -Dtest=RunCucumberTest test`: **6 scenarios / 22 steps passed, 0 failed, 0 skipped**. A packaged-app loopback REST smoke run verified health/docs/create/redirect/analytics/validation; see `evidence/rest-p14-local-checks.txt`.
-- Publication completed: commit `cbbbbd2` pushed to the specified `origin/main`; the post-push worktree was clean. Screenshots remain missing. Production NO-GO remains due to unverified live services and operational controls.
+- P14 `mvn clean verify`: **114 tests, 113 passed, 0 failures, 0 errors, 1 skipped; BUILD SUCCESS** (superseded by the P15 run below). Explicit `mvn -Dtest=RunCucumberTest test`: **6 scenarios / 22 steps passed, 0 failed, 0 skipped**. A packaged-app loopback REST smoke run verified health/docs/create/redirect/analytics/validation; see `evidence/rest-p14-local-checks.txt`.
+- Publication completed: commit `cbbbbd2` pushed to the specified `origin/main`; the post-push worktree was clean. At this P14 milestone screenshots had not yet been captured. Live-service and operational verification continued as follow-up release work.
+
+### P15 hardening pass (2026-10-16, uncommitted)
+
+- Added `.github/workflows/ci.yml` (build/test/report upload, OSV scan, secret scan) - **not executed**.
+- Added `orchestration_lifecycle.feature` (10 scenarios) and `LifecycleStepDefinitions`; `ScenarioCliRunnerTest` (10); `OidcLocalKeyValidationTest` (6, local simulation); persistence contract tests (H2 run, PostgreSQL Testcontainers skipped); `LoadSmokeTest`.
+- Refactored `SecurityConfiguration` to expose `productionTokenValidator` (behavior unchanged).
+- Dependency scan found 19 advisories; patched via `pom.xml` version overrides; 2 Spring Framework advisories accepted with rationale ([SECURITY_SCANNING.md](SECURITY_SCANNING.md)).
+- Recovery review found no crash recovery, approval expiry or idempotency keys; deliberately not implemented in this pass ([HARDENING_REVIEW.md](HARDENING_REVIEW.md)).
+- Final `mvn -B clean verify`: **149 tests, 144 passed, 0 failures, 0 errors, 5 skipped; BUILD SUCCESS**. BDD 16 scenarios / 76 steps.
+- Release validation remained pending for live integrations and operational controls.
+
+### P16 API evidence and final verification (2026-10-17, uncommitted)
+
+- Completed the endpoint inventory and strengthened the loopback API smoke assertions for JSON fields, default expiry, redirect `302`/`Location`, click-count increment, orchestration lifecycle state, and error response bodies. The final packaged-app run passed **64/64 checks** using default profile, H2, and loopback only.
+- Confirmed 40 retained API PNGs are indexed; the direct redirect capture visibly records HTTP `302` and `Location`. Production-auth and PostgreSQL evidence remain blocked and are not inferred from local tests.
+- Final `mvn -B clean verify` exited 0 at 2026-10-17 00:59:33 +05:30: **149 total, 144 passed, 0 failures, 0 errors, 5 skipped**. The load-test evidence was copied unchanged from the resulting `target/load-test-results.txt`; final metrics are in `LOAD_TEST_PLAN.md`.
+- Final OSV scan: 98 runtime artifacts, two accepted critical Spring advisories, zero unaccepted. Final working-tree secret scan (2026-10-17 01:40): 236 files, zero unreadable, zero unallowed, four exact synthetic fixtures. CI, live PostgreSQL, live OIDC, and Git-history scanning remain unverified.
+- Environment-specific release checks remain pending; no commit or push was made.
 
 ## 4. Directory structure
 ```
 schwab-agentic-url-shortener/
 ├─ pom.xml
 ├─ README.md
-├─ docs/ (plan, architecture, scenarios, risks, test, traceability, readiness, evidence)
+├─ docs/ (plan, architecture, scenarios, deployment, operations, risks, test, traceability, readiness, evidence)
 ├─ evidence/ (real CLI, REST and Maven result transcripts)
 ├─ memory-bank/ (agent handover; start with memory-bank/README.md)
 ├─ src/main/java/com/schwab/agentic/

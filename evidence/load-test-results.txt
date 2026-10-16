@@ -1,0 +1,6 @@
+Load smoke test results (default profile, H2 in-memory, embedded server)
+host=Windows 11 amd64 cpus=4 java=21.0.12.1 clientThreads=8
+create-url: requests=200 failures=0 wall=3090ms throughput=64.7 req/s p50=82.4ms p95=364.4ms max=903.5ms
+redirect: requests=200 failures=0 wall=1236ms throughput=161.8 req/s p50=34.0ms p95=97.3ms max=554.7ms
+greenfield-run: requests=16 failures=0 wall=8355ms throughput=1.9 req/s p50=3660.3ms p95=5207.5ms max=5207.5ms
+analytics totalClicks=200 expected=200

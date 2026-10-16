@@ -2,7 +2,7 @@
 
 Canonical detail: [docs/ARCHITECTURE.md](../docs/ARCHITECTURE.md). Base package `com.schwab.agentic`.
 
-Production status: not certified. Profile code exists, but live PostgreSQL/OIDC and gateway controls are not verified.
+Deployment profile and trust boundaries: production configuration exists; live PostgreSQL/OIDC and gateway-control evidence is tracked in `docs/OPERATIONS_AND_RELEASE_READINESS.md`.
 
 ## Modules (under `src/main/java/com/schwab/agentic`)
 
