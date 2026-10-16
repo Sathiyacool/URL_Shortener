@@ -4,10 +4,10 @@ Detail: [docs/TEST_PLAN.md](../docs/TEST_PLAN.md); results: [docs/TEST_RESULTS.m
 
 Production readiness is not established by this test strategy or the passing suite; live PostgreSQL, OIDC, TLS gateway, and operational recovery remain unverified.
 
-## Pyramid (111 tests at 2026-10-16)
+## Pyramid (114 tests at 2026-10-16)
 
 - **Unit** (plain JUnit/Mockito): `ShortUrlServiceTest`, `DagValidatorTest`, state machine tests, `PolicyEngineTest`, `AgentProviderTest`, `ArtifactSandboxTest`, `SecurityConfigurationTest`.
-- **Integration** (`@SpringBootTest`, H2, MockMvc): shortener API, execution engine, replanning, audit/metrics, persistence, approvals, scenarios and lifecycle, API error contract, OIDC scope authorization boundary, fail-closed context, Flyway migration/schema validation.
+- **Integration** (`@SpringBootTest`, H2, MockMvc): shortener API, execution engine, replanning, audit/metrics, persistence, approvals, scenarios and lifecycle, API error contract and generated OpenAPI contract, OIDC scope authorization boundary, production Swagger/OpenAPI denial, fail-closed context, Flyway migration/schema validation.
 - **BDD** (Cucumber, `RunCucumberTest`): 6 scenarios, 22 steps, features under `src/test/resources/features`. Behavior-level acceptance of the shortener and orchestration flows; reports in `target/cucumber-reports/`.
 - **Manual/live evidence**: CLI and curl transcripts in `evidence/`.
 
@@ -26,6 +26,8 @@ In-memory H2 per test context, deterministic mock LLM, throwaway credentials set
 ## Security tests
 
 401 for anonymous requests, 403 for JWTs without required scope (MockMvc), OIDC config fail-closed, HTTPS issuer/audience validator, PostgreSQL URL/credential/TLS-mode validation, validation and error contract, SSRF-style destination rejection, sandbox path escape (symlink case skipped on Windows without privilege). No live OIDC or PostgreSQL integration is asserted by this suite.
+
+OpenAPI integration checks verify generated endpoint paths, request/response schemas and status codes, local Swagger UI availability, and bearer-auth documentation. Production authorization tests verify that an operator token still cannot access the disabled OpenAPI or Swagger routes.
 
 ## Evidence rules
 

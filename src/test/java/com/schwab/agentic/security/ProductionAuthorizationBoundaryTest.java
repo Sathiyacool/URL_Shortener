@@ -59,6 +59,12 @@ class ProductionAuthorizationBoundaryTest {
     }
 
     @Test
+    void doesNotExposeOpenApiOrSwaggerUiInProduction() throws Exception {
+        mockMvc.perform(get("/v3/api-docs").with(operatorToken())).andExpect(status().isForbidden());
+        mockMvc.perform(get("/swagger-ui/index.html").with(operatorToken())).andExpect(status().isForbidden());
+    }
+
+    @Test
     void operatorReceivesApplicationErrorsAndPublicEndpointsStayOpen() throws Exception {
         mockMvc.perform(get("/api/runs/{id}", UUID.randomUUID()).with(operatorToken()))
                 .andExpect(status().isNotFound());

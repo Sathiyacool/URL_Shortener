@@ -20,6 +20,13 @@ app:
   public-base-url: http://localhost:8080
   default-expiration: 30d
 
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui.html
+
 orchestration:
   execution:
     max-parallel-tasks: 4

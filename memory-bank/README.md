@@ -2,7 +2,7 @@
 
 A repository-based handover so a new Copilot Agent session can continue consistently. It is a **navigation aid**, not a substitute for source code, executable tests or current verification. Facts are dated; when a fact conflicts with the source or a fresh test run, the source and the run win and the Memory Bank must be corrected.
 
-Last updated: **2026-10-16**. Last verified Maven result after production-profile hardening: **111 tests, 0 failures, 0 errors, 1 skipped, BUILD SUCCESS**; BDD **6 scenarios / 22 steps passed**. The project is not certified or production-ready; see `activeContext.md` and `docs/ASSESSMENT_READINESS.md`.
+Last updated: **2026-10-16**. Check `activeContext.md` for the most recent verified Maven and BDD results; do not assume counts in this overview remain current. The project is not certified or production-ready; see `activeContext.md` and `docs/ASSESSMENT_READINESS.md`.
 
 ## Files
 
@@ -18,6 +18,8 @@ Last updated: **2026-10-16**. Last verified Maven result after production-profil
 | [testStrategy.md](./testStrategy.md) | Test pyramid, responsibilities, data, security and evidence rules |
 
 Canonical documents (link, do not duplicate): [README](../README.md), [PLAN](../docs/PLAN.md), [ARCHITECTURE](../docs/ARCHITECTURE.md), [SCENARIOS](../docs/SCENARIOS.md), [TEST_PLAN](../docs/TEST_PLAN.md), [TRACEABILITY](../docs/TRACEABILITY.md) (defines `REQ-nn` IDs), [TEST_RESULTS](../docs/TEST_RESULTS.md), [ASSESSMENT_READINESS](../docs/ASSESSMENT_READINESS.md), [EVIDENCE](../docs/EVIDENCE.md), [RISKS_TRADEOFFS](../docs/RISKS_TRADEOFFS.md).
+
+Repository-wide Copilot guidance is in [`.github/copilot-instructions.md`](../.github/copilot-instructions.md); follow it together with this Memory Bank.
 
 ## Startup workflow (required before changing anything)
 

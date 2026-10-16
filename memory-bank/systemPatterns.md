@@ -15,6 +15,7 @@ Production status: not certified. Profile code exists, but live PostgreSQL/OIDC 
 | `scenarios` | `ScenarioService`, `ScenarioController`, `ScenarioCliRunner`, `ScenarioLifecycleService` |
 | `metrics` | Reliability metrics: success rate, retries, rollback frequency, MTTR, latency |
 | `security` | `SecurityConfiguration` (loopback demo profile, OIDC/JWT `prod` chain) |
+| `api` | OpenAPI metadata and bearer-token security scheme |
 | persistence config | H2 default/test; production PostgreSQL with Flyway and Hibernate schema validation |
 | agent/LLM, artifacts, policy | Provider interface plus deterministic mock, sandboxed artifact store and versioning, policy engine/guardrails |
 
@@ -44,6 +45,7 @@ Production status: not certified. Profile code exists, but live PostgreSQL/OIDC 
 - `prod` profile: OIDC JWT; configured HTTPS issuer (`APP_OIDC_ISSUER_URI`), audience (`APP_OIDC_AUDIENCE`), signature/time validation and required `agentic.operator` scope. Startup fails closed if issuer/audience are missing/invalid.
 - PostgreSQL values: `DATABASE_URL`, `DATABASE_USERNAME`, `DATABASE_PASSWORD`; DB TLS `DATABASE_SSL_MODE` defaults to `verify-full`; embedded URL credentials and disabled TLS are rejected. Migrations at `src/main/resources/db/migration`; `ddl-auto=validate`.
 - Protected in `prod`: approvals, runs, scenarios, metrics, stats and actuator (except health). Approver identity comes from JWT subject.
+- OpenAPI/Swagger routes are available for local development, disabled by `application-prod.yml`, and denied by the production security chain.
 - Not verified: live database/IdP, TLS gateway, rate limiting, DNS-rebinding/egress policy, backup/restore, crash recovery, multi-instance leases.
 
 ## Approval gates

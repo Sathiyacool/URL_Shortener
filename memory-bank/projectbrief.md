@@ -22,16 +22,18 @@ Show that AI-assisted software delivery can be controlled: explicit task depende
 8. Dynamic replanning.
 9. Three scenarios: greenfield, brownfield, ambiguous.
 10. Tests, architecture docs, setup, risks, trade-offs, assumptions, limitations.
+11. Generated OpenAPI contract with interactive documentation limited to the local profile.
+12. Reusable Copilot Agent instructions that enforce repository startup, verification, and handover workflows.
 
 Constraints: LLM behind an interface with a deterministic mock; never execute AI-generated commands; risky operations require explicit approval; do not claim tests pass unless executed.
 
 ## Deliverables
 
-Source, tests, `README.md`, `docs/` (plan, architecture, scenarios, risks, test plan, traceability, results, readiness, evidence), `evidence/` transcripts, this `memory-bank/`.
+Source, tests, `README.md`, `.github/copilot-instructions.md`, `docs/` (plan, architecture, scenarios, risks, test plan, traceability, results, readiness, evidence), `evidence/` transcripts, this `memory-bank/`.
 
 ## Acceptance criteria
 
-The 23 requirement IDs and statuses live in [docs/TRACEABILITY.md](../docs/TRACEABILITY.md). Acceptance is evidenced by `mvn clean verify` plus the CLI/REST transcripts in `evidence/`. Production readiness is explicitly **not** an acceptance claim.
+The 25 requirement IDs and statuses live in [docs/TRACEABILITY.md](../docs/TRACEABILITY.md). Acceptance is evidenced by `mvn clean verify` plus the CLI/REST transcripts in `evidence/`. Production readiness is explicitly **not** an acceptance claim.
 
 ## Confirmed user decisions
 

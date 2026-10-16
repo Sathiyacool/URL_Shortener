@@ -46,6 +46,7 @@ The application is a single Java 21 / Spring Boot 3.5 Maven service. URL-shorten
 
 - `shortener`: URL validation, local/private destination checks, alias creation, configurable expiration, redirect/click recording, statistics API.
 - `security`: loopback-development defaults and production-profile OIDC JWT authorization (issuer, audience and operator scope).
+- `api`: OpenAPI metadata and the documented bearer-token security scheme; generated documentation is local-profile-only.
 - `orchestration.dag`: typed task definitions, dependency graph construction, and validation.
 - `orchestration.engine`: scheduler, execution modes, state persistence, retry/fallback, compensation, and safe-stop.
 - `orchestration.approval`: persisted approval decisions, REST API, and HIGH-impact dispatch gate.
@@ -98,6 +99,7 @@ Destination validation rejects literal loopback/private/link-local/shared IP ran
 
 - URL API: `POST /api/urls`, `GET /{code}`, `GET /api/urls/{code}/stats`.
 - Orchestration REST: `/api/runs`, `/api/approvals`, and `/api/scenarios`.
+- OpenAPI: `springdoc-openapi` generates the API contract and local Swagger UI. The default profile serves `/v3/api-docs` and `/swagger-ui/index.html`; the `prod` profile disables both and the production security chain denies their routes. Protected operations are documented with the `bearerAuth` scheme and the `agentic.operator` scope requirement.
 - CLI: Spring Boot `ApplicationRunner` accepts `--scenario=<id>` and optional `--mode=SEQUENTIAL|PARALLEL`; it delegates to `ScenarioService`. Optional `--decision=APPROVE|REJECT --approver=<name>` (plus `--rationale`, `--safe-stop-before-resume`) delegates the human decision, resume and safe-stop steps to `ScenarioLifecycleService`, which calls the same `ApprovalService` and `OrchestrationRunService` as the REST controllers. Decisions are never inferred or automatic.
 
 ## Execution flow

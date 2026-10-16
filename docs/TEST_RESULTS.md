@@ -1,6 +1,6 @@
 # Test results
 
-Last verified: **2026-10-16 (local tool environment, after PostgreSQL/OIDC profile changes)**. This result supersedes the earlier 112-test run.
+Last verified: **2026-10-16 (local tool environment, after OpenAPI and Copilot-instruction changes)**. This result supersedes the 111-test production-hardening baseline.
 
 Production readiness is **not** inferred from this test run. PostgreSQL schema scripts were applied to H2; OIDC route tests used synthetic MockMvc JWTs. Neither a live PostgreSQL service nor a live issuer was exercised.
 
@@ -10,19 +10,19 @@ Production readiness is **not** inferred from this test run. PostgreSQL schema s
 |---|---|
 | Command | `mvn clean verify` |
 | Java / Maven / Spring Boot | Eclipse Temurin 21.0.12.1 / 3.9.11 / 3.5.16 |
-| Total tests | **111** |
-| Passed | 110 |
+| Total tests | **114** |
+| Passed | **113** |
 | Failures / Errors | 0 / 0 |
 | Skipped | **1** |
 | Outcome | `BUILD SUCCESS` |
 
-The total is one test lower than the previous run because the Basic-auth-specific invalid-credential test was removed when the production security model changed to OIDC JWTs; its authorization boundary is now covered by anonymous (401), authenticated-without-operator-scope (403), audience-validator unit, and fail-closed configuration tests. The test count is from Surefire XML after the actual clean verification.
+The total is three tests higher than the previous 111-test run: two new OpenAPI contract tests and one additional production authorization test that denies Swagger/OpenAPI routes. The earlier reduction from 112 to 111 occurred when the Basic-auth-specific invalid-credential test was removed as production security moved to OIDC JWTs; authorization is covered by anonymous (401), authenticated-without-operator-scope (403), audience-validator unit, and fail-closed configuration tests. The current count is aggregated from Surefire XML after the actual clean verification.
 
 The one skipped test is `ArtifactSandboxTest.rejectsSymlinkThatTargetsOutsideSandbox`. Windows denied `Files.createSymbolicLink` (`A required privilege is not held by the client`), so its **escape assertion was not executed**. Instructions to enable and rerun it are in [TEST_PLAN.md](./TEST_PLAN.md).
 
 ## BDD (Cucumber 7.25.0)
 
-Run through `RunCucumberTest` (inside `mvn clean verify`, also selectable alone with `mvn -Dtest=RunCucumberTest test`):
+The suite ran in `mvn clean verify` and was then executed explicitly with `mvn -Dtest=RunCucumberTest test`:
 
 | Measure | Result |
 |---|---|
@@ -40,7 +40,7 @@ BDD covers the shortener journeys and each scenario up to its first approval che
 |---|---|
 | `AgenticApplicationTest` | 1 |
 | `AgentProviderTest` / `AgentTaskHandlerIntegrationTest` | 4 / 1 |
-| `ApiErrorContractTest` | 5 |
+| `ApiErrorContractTest` / `OpenApiIntegrationTest` | 5 / 2 |
 | `AuditMetricsIntegrationTest` | 3 |
 | `ArtifactSandboxTest` | 4 (3 executed, 1 skipped) |
 | `ArtifactVersionServiceIntegrationTest` / `PolicyEngineTest` | 3 / 4 |
@@ -49,12 +49,13 @@ BDD covers the shortener journeys and each scenario up to its first approval che
 | `ExecutionEngineIntegrationTest` / `OrchestrationPersistenceIntegrationTest` | 10 / 2 |
 | `DynamicReplanServiceIntegrationTest` | 6 |
 | `ScenarioApiIntegrationTest` / `ScenarioLifecycleIntegrationTest` | 3 / 5 |
-| `ProductionSecurityIntegrationTest` / `ProductionAuthorizationBoundaryTest` / `ProductionFailClosedTest` / `SecurityConfigurationTest` | 2 / 3 / 1 / 2 |
+| `ProductionSecurityIntegrationTest` / `ProductionAuthorizationBoundaryTest` / `ProductionFailClosedTest` / `SecurityConfigurationTest` | 2 / 4 / 1 / 2 |
 | `ShortUrlApiIntegrationTest` / `ShortUrlServiceTest` | 6 / 28 |
 | `RunCucumberTest` | 6 |
 
 ## Non-test executions (real runs, not JUnit)
 
+- Packaged-app local HTTP smoke check: health, OpenAPI, Swagger UI, URL creation (201), redirect (302), click analytics, and invalid-destination error (400) all returned expected results; transcript: [../evidence/rest-p14-local-checks.txt](../evidence/rest-p14-local-checks.txt). This used the unauthenticated loopback profile only.
 - Eight headless CLI runs from the earlier assessment configuration, including approve, reject and safe-stop lifecycle: [../evidence/](../evidence/) `cli-*.txt`.
 - Current production profile with all required environment values empty was launched from the packaged JAR; process exited 1 at startup on missing PostgreSQL configuration: [../evidence/prod-00-fail-closed-database.txt](../evidence/prod-00-fail-closed-database.txt).
 - Earlier live production-profile HTTP Basic checks (`rest-00-*`, `rest-01-*`) are **historical and superseded** by the OIDC/PostgreSQL profile. They do not verify the current production profile.

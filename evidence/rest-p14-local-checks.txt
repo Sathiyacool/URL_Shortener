@@ -1,0 +1,16 @@
+Date: 2026-10-16
+Profile: default local (loopback, in-memory H2; not production authentication)
+Process: packaged application JAR, started for this check and stopped afterward
+
+Live HTTP checks against http://127.0.0.1:8080:
+- GET /actuator/health -> 200; status UP
+- GET /v3/api-docs -> 200; title "Agentic URL Shortener API"
+- GET /swagger-ui/index.html -> 200
+- POST /api/urls with https://example.com/p14-check and alias p14check -> 201; Location http://localhost:8080/p14check
+- GET /p14check -> 302; Location https://example.com/p14-check
+- GET /api/urls/p14check/stats after redirect -> totalClicks 1
+- POST /api/urls with file:///invalid -> 400
+
+Authentication boundary:
+- This live run used the intentionally unauthenticated local profile.
+- Production 401/403, OIDC configuration, and disabled Swagger/OpenAPI checks are covered by MockMvc/JUnit only; no live OIDC issuer was available.

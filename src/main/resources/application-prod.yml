@@ -1,6 +1,12 @@
 server:
   address: ${SERVER_ADDRESS:0.0.0.0}
 
+springdoc:
+  api-docs:
+    enabled: false
+  swagger-ui:
+    enabled: false
+
 spring:
   datasource:
     url: ${app.database.url}

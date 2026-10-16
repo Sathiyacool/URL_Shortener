@@ -2,7 +2,7 @@
 
 Canonical requirement IDs (`REQ-nn`) used by every document in this repository, including `memory-bank/`.
 
-**Status legend** (verified against source and the 2026-10-16 clean `mvn clean verify`: 111 tests, 0 failures, 0 errors, 1 skipped):
+**Status legend** (verified against source and the 2026-10-16 clean `mvn clean verify`: 114 tests, 0 failures, 0 errors, 1 skipped):
 
 - **Implemented**: code exists in `src/main`.
 - **Tested**: an automated test that executed and passed exercises the behavior. A skipped test does not count.
@@ -34,6 +34,8 @@ Canonical requirement IDs (`REQ-nn`) used by every document in this repository, 
 | REQ-21 | Documentation, setup, risks, trade-offs, limitations | README and `docs/` | document review (this pass) | Implemented |
 | REQ-22 | Memory Bank for agent handover | `memory-bank/` | consistency review against source and test results | Implemented |
 | REQ-23 | Screenshot evidence | none | none | **Not evidenced**: no usable screenshots captured. See `EVIDENCE.md` |
+| REQ-24 | Generated API contract and safe documentation exposure | `OpenApiConfiguration`, annotated REST controllers/DTOs, profile configuration, `SecurityConfiguration` | `OpenApiIntegrationTest` verifies paths, schemas, statuses, auth scheme and local UI; `ProductionAuthorizationBoundaryTest` verifies production routes are denied | Implemented, Tested; generated documentation is local-profile-only |
+| REQ-25 | Reusable Copilot Agent startup and completion workflow | `.github/copilot-instructions.md`, `memory-bank/README.md` | Manual consistency review against the requested handover workflow | Implemented |
 
 Production deployment readiness is **not** claimed. See [ASSESSMENT_READINESS.md](./ASSESSMENT_READINESS.md).
 

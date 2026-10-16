@@ -4,7 +4,7 @@ A Java 21 / Spring Boot application and agent orchestration demonstration for th
 
 ## Status
 
-**Assessment demonstration** P0–P10 assessment phases are complete; a production-hardening phase is in progress. The production profile now targets PostgreSQL with Flyway-managed schema and OIDC/JWT bearer-token authentication; the local profile remains loopback-only with in-memory H2. These are code/configuration changes, not evidence of a deployed or operationally ready service. See [docs/ASSESSMENT_READINESS.md](docs/ASSESSMENT_READINESS.md), [docs/PLAN.md](docs/PLAN.md), and [docs/RISKS_TRADEOFFS.md](docs/RISKS_TRADEOFFS.md) for implemented scope and remaining controls.
+**Assessment demonstration.** P0–P13 assessment, production-profile hardening, OpenAPI, and Copilot handover phases are complete. The production profile targets PostgreSQL with Flyway-managed schema and OIDC/JWT bearer-token authentication; the default profile remains loopback-only with in-memory H2. OpenAPI/Swagger documentation is available in the default profile and disabled/denied in `prod`. These are code/configuration changes, not evidence of a deployed or operationally ready service. See [docs/ASSESSMENT_READINESS.md](docs/ASSESSMENT_READINESS.md), [docs/PLAN.md](docs/PLAN.md), and [docs/RISKS_TRADEOFFS.md](docs/RISKS_TRADEOFFS.md) for implemented scope and remaining controls.
 
 The URL shortener supports creation, redirects, configurable expiration, and click analytics. The orchestration core persists and executes dependency DAGs with parallel/sequential scheduling, retries, fallback, compensation, safe-stop/resume, high-impact approval gates, hash-chained audit history, reliability metrics, and dynamic replanning. The three assessment scenarios are available through REST and the Java CLI. See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) and [docs/SCENARIOS.md](docs/SCENARIOS.md) for design and reproducible workflows.
 
@@ -71,6 +71,10 @@ Approval endpoints:
 
 Agents write only policy-checked artifacts under the configured sandbox. Brownfield checks call shortener Java services and repositories directly; arbitrary commands and arbitrary model-selected check IDs are not accepted.
 
+## API documentation
+
+In the default local profile, the generated OpenAPI 3 contract is available at `http://127.0.0.1:8080/v3/api-docs` and Swagger UI at `http://127.0.0.1:8080/swagger-ui/index.html` (also linked at `/swagger-ui.html`). It documents request/response schemas, validation and error statuses, redirect behavior, and the production bearer-token scope requirement. OpenAPI and Swagger UI are disabled in `prod` and their routes are denied by the production security chain. Do not expose the unauthenticated local profile on a shared network.
+
 ## Security profiles
 
 - **Default/local:** binds to loopback and allows local demo requests without authentication. Do not expose this profile on a shared or public network.
@@ -80,11 +84,12 @@ Agents write only policy-checked artifacts under the configured sandbox. Brownfi
 
 ## Tests
 
-Run `mvn clean verify` for the complete suite, including Cucumber feature tests. Last verified 2026-10-16 after production-profile hardening: **111 tests, 0 failures, 0 errors, 1 skipped; BDD 6 scenarios / 22 steps passed**. Coverage includes context startup, URL validation/expiry/analytics, OIDC authorization boundaries (401/403/fail-closed), API error contract, Flyway/H2 schema validation, execution concurrency, DAG/state transitions, retries/fallback/rollback/safe-stop, approval lifecycles, guardrails, replanning, scenarios, metrics, and audit integrity. Production OIDC issuer and PostgreSQL connectivity are **not** end-to-end tested. Requirement IDs (`REQ-nn`) are defined in [docs/TRACEABILITY.md](docs/TRACEABILITY.md). See also [docs/TEST_PLAN.md](docs/TEST_PLAN.md), [docs/TEST_RESULTS.md](docs/TEST_RESULTS.md), [docs/ASSESSMENT_READINESS.md](docs/ASSESSMENT_READINESS.md), and [docs/EVIDENCE.md](docs/EVIDENCE.md). Screenshots have not been captured; text transcripts are in [evidence/](evidence/). The symlink escape test is preserved; on Windows it is skipped only when the OS refuses link creation.
+Run `mvn clean verify` for the complete suite, including Cucumber feature tests. Last verified 2026-10-16 after OpenAPI and documentation updates: **114 tests, 0 failures, 0 errors, 1 skipped (113 passed); BDD 6 scenarios / 22 steps passed**. Coverage includes context startup, URL validation/expiry/analytics, OIDC authorization boundaries (401/403/fail-closed), generated OpenAPI contract and production documentation denial, API error contract, Flyway/H2 schema validation, execution concurrency, DAG/state transitions, retries/fallback/rollback/safe-stop, approval lifecycles, guardrails, replanning, scenarios, metrics, and audit integrity. Production OIDC issuer and PostgreSQL connectivity are **not** end-to-end tested. Requirement IDs (`REQ-nn`) are defined in [docs/TRACEABILITY.md](docs/TRACEABILITY.md). See also [docs/TEST_PLAN.md](docs/TEST_PLAN.md), [docs/TEST_RESULTS.md](docs/TEST_RESULTS.md), [docs/ASSESSMENT_READINESS.md](docs/ASSESSMENT_READINESS.md), and [docs/EVIDENCE.md](docs/EVIDENCE.md). Screenshots have not been captured; text transcripts are in [evidence/](evidence/). The symlink escape test is preserved; on Windows it is skipped only when the OS refuses link creation.
 
 ## Project Memory Bank
 
 [memory-bank/](memory-bank/README.md) is a repository-based handover for Copilot Agent sessions: read `memory-bank/README.md` first, then inspect the real source and `git diff`. It summarizes and links to the canonical docs and never replaces source code or test execution.
+The reusable repository-wide startup and completion workflow is in [.github/copilot-instructions.md](.github/copilot-instructions.md).
 
 ## Current limitations and risks
 

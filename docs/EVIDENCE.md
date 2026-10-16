@@ -1,16 +1,18 @@
 # Assessment evidence index
 
-Last updated: 2026-10-16 after production-profile hardening. Requirement IDs refer to [TRACEABILITY.md](./TRACEABILITY.md). Everything below is real output; nothing is fabricated.
+Last updated: 2026-10-16 after OpenAPI, Copilot-instruction, and final verification work. Requirement IDs refer to [TRACEABILITY.md](./TRACEABILITY.md). Everything below is real output; nothing is fabricated.
 
 ## Automated evidence
 
 | Evidence | Actual result | Location | Requirements |
 |---|---|---|---|
-| Clean Maven verification after PostgreSQL/OIDC changes | `mvn clean verify`: 111 tests, 0 failures, 0 errors, 1 skipped; `BUILD SUCCESS` | [production-hardening-test-summary.txt](../evidence/production-hardening-test-summary.txt); `target/surefire-reports/` (ignored, regenerated) | all |
+| Clean Maven verification after OpenAPI and Copilot-instruction changes | `mvn clean verify`: 114 tests, 0 failures, 0 errors, 1 skipped (113 passed); `BUILD SUCCESS` | [production-hardening-test-summary.txt](../evidence/production-hardening-test-summary.txt); `target/surefire-reports/` (ignored, regenerated) | all |
 | PostgreSQL migration/schema mapping | Flyway migration and Hibernate `validate` run successfully against H2 during the full suite | Surefire reports; H2 only, not a live PostgreSQL test | REQ-13 (partial) |
 | OIDC authorization boundaries | Anonymous 401, JWT without operator scope 403, configured operator scope permitted, missing OIDC issuer/audience fails closed; 8 focused tests passed | Surefire XML for `Production*Test` and `SecurityConfigurationTest` | REQ-13 |
 | Production database fail-closed startup | Real Java process exited 1 with all DB/OIDC environment variables empty and rejected the missing PostgreSQL configuration before starting | [prod-00-fail-closed-database.txt](../evidence/prod-00-fail-closed-database.txt) | REQ-13 |
+| Current local REST smoke check | Packaged application over loopback: health 200, OpenAPI/Swagger 200, create 201, redirect 302, analytics click count 1, invalid scheme 400 | [rest-p14-local-checks.txt](../evidence/rest-p14-local-checks.txt); default profile only, no authentication | REQ-01, 02, 24 |
 | BDD | 6 scenarios and 22 steps passed; 0 failed; 0 skipped | `target/cucumber-reports/cucumber.html`, `cucumber.json` (ignored, regenerated) | REQ-01, 02, 08, 17 |
+| OpenAPI contract and profile boundary | `OpenApiIntegrationTest`: 2 tests; generated business routes, request/response schemas, statuses, auth scheme, local Swagger UI; production tests verify both documentation routes are denied | Surefire XML for `OpenApiIntegrationTest` and `ProductionAuthorizationBoundaryTest` | REQ-24 |
 | Symlink escape | 4 discovered, 3 executed, 1 skipped (Windows privilege) | `TEST-com.schwab.agentic.guardrails.ArtifactSandboxTest.xml` | REQ-12 (Partial) |
 
 ## CLI scenario transcripts (real headless runs)
@@ -50,11 +52,11 @@ No usable screenshots exist, and none are claimed. An attempt to render `target/
 | Final `mvn clean verify` summary | Missing |
 | Cucumber HTML report (6 scenarios, 22 steps) | Missing |
 | Greenfield, brownfield and ambiguous CLI runs, including approval lifecycle | Missing (text transcripts exist) |
-| REST and security checks | Missing (text transcript exists) |
+| REST and security checks | Missing screenshot; current default-profile REST transcript and production-profile MockMvc security tests exist |
 
 Precise Windows steps to capture them:
 
-1. Open PowerShell in the repository and set the JDK/Maven paths from the README. Run `mvn clean verify`. When `BUILD SUCCESS` and `Tests run: 111, Failures: 0, Errors: 0, Skipped: 1` appear, press `Win+Shift+S` and save as `evidence\screenshots\01-maven-summary.png`.
+1. Open PowerShell in the repository and set the JDK/Maven paths from the README. Run `mvn clean verify`. When `BUILD SUCCESS` and `Tests run: 114, Failures: 0, Errors: 0, Skipped: 1` appear, press `Win+Shift+S` and save as `evidence\screenshots\01-maven-summary.png`.
 2. Open `target\cucumber-reports\cucumber.html` in Edge, expand both features, press `Win+Shift+S` and save as `02-cucumber-report.png`.
 3. Run each command in [SCENARIOS.md](./SCENARIOS.md) and the lifecycle commands, capturing each terminal as `03-...png`.
 4. For current production auth evidence, use a controlled test issuer that signs a JWT with the configured audience and `agentic.operator` scope; configure a test PostgreSQL service and run requests through the TLS gateway. Do not use the old `rest-01-prod-security-checks.txt` HTTP Basic transcript as evidence for the current profile. Redact tokens before any screenshot.

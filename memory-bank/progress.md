@@ -1,18 +1,20 @@
 # Progress
 
-Requirement IDs `REQ-01` to `REQ-23` and per-requirement status are canonical in [docs/TRACEABILITY.md](../docs/TRACEABILITY.md). Do not redefine them here. Vocabulary: Implemented, Tested, Partial, Not implemented / Not evidenced.
+Requirement IDs `REQ-01` to `REQ-25` and per-requirement status are canonical in [docs/TRACEABILITY.md](../docs/TRACEABILITY.md). Do not redefine them here. Vocabulary: Implemented, Tested, Partial, Not implemented / Not evidenced.
 
 ## Phases (see [docs/PLAN.md](../docs/PLAN.md))
 
-P0 to P10 assessment implementation complete. P11 is in progress: production-profile hardening (PostgreSQL/Flyway, OIDC/JWT, truthful readiness docs). Do not describe P11 or the application as production-ready.
+P0 to P13 assessment, production-profile hardening, OpenAPI contract/profile restrictions, and Copilot handover/doc alignment complete. P14 verification is complete; commit/push review is pending. Do not describe the application as production-ready.
 
-## Verified functionality (as of 2026-10-16; historical P10 run had 112 tests, latest P11 run has 111)
+## Verified functionality (as of 2026-10-16; historical P10 run had 112 tests, P11 had 111; latest P14 run has 114)
 
 - Shortener: create, redirect, expiry (410), analytics, input validation.
 - Engine: DAG validation, parallel and sequential execution, synchronization, bounded retries, fallback, compensation, safe-stop and resume, replanning, audit chain verification, metrics.
 - Approvals: pending, approve, reject, resume; scenario-level lifecycle via REST and CLI.
 - Security: `prod` OIDC/JWT issuer/audience validation and `agentic.operator` scope; MockMvc 401/403 and missing-config fail-closed tests.
 - Persistence: PostgreSQL/Flyway configuration and schema migration; migration validated against H2 only.
+- API contract: springdoc-generated paths/schemas/auth/errors; OpenAPI and Swagger UI are disabled and denied in `prod`. Focused verification: 6 tests passed, 0 failures, 0 errors, 0 skipped.
+- Copilot continuity: repository-wide `.github/copilot-instructions.md` and `memory-bank/README.md` establish startup/completion workflows (REQ-25).
 
 ## Outstanding
 
@@ -23,4 +25,4 @@ P0 to P10 assessment implementation complete. P11 is in progress: production-pro
 
 ## Known limitations
 
-See [docs/RISKS_TRADEOFFS.md](../docs/RISKS_TRADEOFFS.md) and [docs/ASSESSMENT_READINESS.md](../docs/ASSESSMENT_READINESS.md). Latest test status: 110 passed, 0 failed, 1 skipped in 111 tests; BDD 6 scenarios / 22 steps passed.
+See [docs/RISKS_TRADEOFFS.md](../docs/RISKS_TRADEOFFS.md) and [docs/ASSESSMENT_READINESS.md](../docs/ASSESSMENT_READINESS.md). Latest test status: 113 passed, 0 failed, 0 errors, 1 skipped in 114 tests; explicit BDD 6 scenarios / 22 steps passed. The single skip is the Windows symbolic-link setup limitation.

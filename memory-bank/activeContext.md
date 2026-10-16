@@ -6,8 +6,10 @@ Date of last verification: **2026-10-16**.
 
 | Check | Result |
 |---|---|
-| Latest `mvn clean verify` after production-profile hardening | **111 tests, 0 failures, 0 errors, 1 skipped, BUILD SUCCESS** (110 passed) |
-| BDD (`RunCucumberTest`) | **6 scenarios, 22 steps; 0 failed, 0 skipped** |
+| Latest `mvn clean verify` after OpenAPI and Copilot-instruction changes | **114 tests, 0 failures, 0 errors, 1 skipped, BUILD SUCCESS** (113 passed) |
+| Explicit BDD (`mvn -Dtest=RunCucumberTest test`) | **6 scenarios, 22 steps; 0 failed, 0 skipped** |
+| OpenAPI-focused tests | 2 generated-contract/UI tests passed; production docs denial covered by production security test |
+| Current live local REST check | Packaged app: health/docs 200, create 201, redirect 302, click count 1, invalid destination 400 (`evidence/rest-p14-local-checks.txt`) |
 | Skipped test | `ArtifactSandboxTest.rejectsSymlinkThatTargetsOutsideSandbox` (Windows denied symlink creation; assertion not executed) |
 | CLI (8 headless runs, `evidence/cli-01..08`) | greenfield SUCCEEDED; brownfield and ambiguous pending-only, approve gives SUCCEEDED, reject gives CANCELLED; brownfield approve plus safe-stop gives SAFE_STOPPED, resumed, SUCCEEDED |
 | Current production authorization | MockMvc JWT tests: anonymous 401, missing operator scope 403, operator scope permitted; HTTPS issuer/audience validator unit tests; missing OIDC config fails closed |
@@ -19,9 +21,9 @@ Sources: [docs/TEST_RESULTS.md](../docs/TEST_RESULTS.md), `evidence/production-h
 
 ## Current state
 
-P0 to P10 assessment phases complete; P11 production hardening is in progress as documented in [docs/PLAN.md](../docs/PLAN.md). Check Git history and worktree for the actual commit/push state.
+P0 to P13 assessment, production-profile hardening, OpenAPI/Swagger, and Copilot handover phases complete. P14 verification is complete; commit/push review is pending as documented in [docs/PLAN.md](../docs/PLAN.md). Check Git history and worktree for the actual publication state.
 
-Post-P10 changes (2026-10-16): SLF4J logging and execution-flow Mermaid diagram added. Production profile changed from in-memory Basic auth/H2 to OIDC JWT + PostgreSQL/Flyway. Latest `mvn clean verify`: 111 tests, 0 failures, 0 errors, 1 skipped (Surefire XML). Tests use H2 and mock JWT tokens; no live PostgreSQL or OIDC integration.
+Post-P10 changes (2026-10-16): SLF4J logging and execution-flow Mermaid diagram added. Production profile changed from in-memory Basic auth/H2 to OIDC JWT + PostgreSQL/Flyway. P12 adds springdoc-openapi 2.9.1; focused OpenAPI and production-security tests passed (6, 0 failures/errors/skips). Final `mvn clean verify`: 114 tests, 113 passed, 0 failures, 0 errors, 1 skipped; standalone BDD: 6 scenarios / 22 steps passed. Tests use H2 and mock JWT tokens; no live PostgreSQL or OIDC integration.
 
 ## Unresolved issues and gaps
 
@@ -34,7 +36,6 @@ Post-P10 changes (2026-10-16): SLF4J logging and execution-flow Mermaid diagram 
 
 ## Next recommended actions
 
-1. Validate migration and OIDC config against live PostgreSQL and an issuer-issued JWT in a controlled test environment.
-2. Capture screenshots manually per `docs/EVIDENCE.md`; enable symlink privilege and rerun the symlink test.
-3. Run dependency vulnerability, load, penetration, backup/restore and recovery tests; document gateway TLS/rate limits.
-4. Create the initial commit only when the user asks.
+1. Inspect the complete diff and confirm no secret, generated build artifact, or unrelated file is staged; fetch/check `origin` before the authorized commit/push.
+2. Capture screenshots manually per `docs/EVIDENCE.md`; enable symlink privilege and rerun the symlink test when feasible.
+3. Validate migration and OIDC config against live PostgreSQL and an issuer-issued JWT in a controlled test environment; run dependency, load, penetration, backup/restore, and recovery checks.

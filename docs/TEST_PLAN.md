@@ -13,6 +13,7 @@ Verify the URL shortener, persisted orchestration engine, production security pr
 | Unit | URL policy/expiry, DAG validation, state machines, agents, guardrails, OIDC and PostgreSQL configuration validators | `ShortUrlServiceTest`, `DagValidatorTest`, `TaskStateMachineTest`, `RunStateMachineTest`, `AgentProviderTest`, `PolicyEngineTest`, `SecurityConfigurationTest` |
 | Spring/API integration | URL create/redirect/stats/expiry/errors, approvals, run API, audit/metrics, dynamic replanning, artifact versioning, production OIDC authorization, API error contract, scenario approval lifecycle, Flyway migration/schema validation | `ShortUrlApiIntegrationTest`, `ApprovalApiIntegrationTest`, `ScenarioApiIntegrationTest`, `ScenarioLifecycleIntegrationTest`, `ApiErrorContractTest`, `ProductionSecurityIntegrationTest`, `ProductionAuthorizationBoundaryTest`, `ProductionFailClosedTest`, `AuditMetricsIntegrationTest` |
 | Orchestration integration | Dependency synchronization, sequential/parallel dispatch, retries, fallback, compensation, safe-stop, approval, duplicate execution | `ExecutionEngineIntegrationTest`, `OrchestrationPersistenceIntegrationTest` |
+| OpenAPI contract | Generated endpoint paths, schemas, status/error responses, bearer scheme, local Swagger UI, and production denial | `OpenApiIntegrationTest`, `ProductionAuthorizationBoundaryTest` |
 | BDD | Public shortener journeys and greenfield/brownfield/ambiguous workflow checkpoints through MockMvc | `RunCucumberTest`, `src/test/resources/features/*.feature` |
 | Full build | Compile, all test layers, packaging and Maven verification lifecycle | `mvn clean verify` |
 
@@ -27,6 +28,7 @@ Verify the URL shortener, persisted orchestration engine, production security pr
 7. CLI scenario commands print their real status. Without `--decision`, brownfield and ambiguous runs stop at their approval. With `--decision=APPROVE|REJECT --approver=<name>` the CLI completes (or cancels) the run and, with `--safe-stop-before-resume`, demonstrates `SAFE_STOPPED` then resume.
 8. Production profile fails to start without a valid HTTPS OIDC issuer and audience; anonymous requests return `401`; a token without operator scope returns `403`; application errors return `400/404/409` with problem details.
 9. Flyway applies the initial schema and Hibernate validates mappings in H2 tests. A live PostgreSQL integration test is still required before deployment.
+10. The generated OpenAPI document contains the implemented REST operations and documented request/error shapes; the default profile serves Swagger UI while the production profile denies both documentation routes.
 
 ## Windows symbolic-link test
 

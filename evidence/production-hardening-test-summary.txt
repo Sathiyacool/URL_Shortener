@@ -1,20 +1,29 @@
-Source: target/surefire-reports/*.xml and target/cucumber-reports/cucumber.json
-Command executed: mvn clean verify
-Date: 2026-10-16
+Source: target/surefire-reports/TEST-*.xml and target/cucumber-reports/cucumber.json
+Commands executed: mvn clean verify; mvn -Dtest=RunCucumberTest test
+Date: 2026-10-16 (after OpenAPI and Copilot-instruction changes)
 Java: Eclipse Temurin 21.0.12.1
 Maven: 3.9.11
 Spring Boot: 3.5.16
 
 Maven outcome: BUILD SUCCESS (process exit code 0)
-JUnit/Surefire total: 111
+JUnit/Surefire total: 114
 Failures: 0
 Errors: 0
 Skipped: 1
-Passed: 110
+Passed: 113
 
 BDD:
 Scenarios: 6 passed, 0 failed, 0 skipped
 Steps: 22 passed, 0 failed, 0 skipped
+
+OpenAPI/profile checks:
+OpenApiIntegrationTest: 2 passed, 0 failed, 0 errors, 0 skipped
+ProductionAuthorizationBoundaryTest: 4 passed, 0 failed, 0 errors, 0 skipped
+The local generated contract documents request schemas, response statuses, and bearer auth; production docs routes are denied.
+
+Live default-profile HTTP check:
+Health 200; OpenAPI 200; Swagger UI 200; URL create 201; redirect 302; analytics recorded 1 click; invalid destination 400.
+Transcript: evidence/rest-p14-local-checks.txt. This was a loopback test, not production-auth verification.
 
 Skipped test:
 ArtifactSandboxTest.rejectsSymlinkThatTargetsOutsideSandbox
