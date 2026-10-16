@@ -4,7 +4,7 @@ Requirement IDs `REQ-01` to `REQ-25` and per-requirement status are canonical in
 
 ## Phases (see [docs/PLAN.md](../docs/PLAN.md))
 
-P0 to P13 assessment, production-profile hardening, OpenAPI contract/profile restrictions, and Copilot handover/doc alignment complete. P14 verification is complete; commit/push review is pending. Do not describe the application as production-ready.
+P0 to P14 assessment, production-profile hardening, OpenAPI contract/profile restrictions, Copilot handover/doc alignment, verification, and publication complete. Commit `cbbbbd2` was pushed normally to the specified `origin/main`; post-push status was clean. Do not describe the application as production-ready.
 
 ## Verified functionality (as of 2026-10-16; historical P10 run had 112 tests, P11 had 111; latest P14 run has 114)
 

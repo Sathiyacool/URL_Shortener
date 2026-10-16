@@ -15,13 +15,14 @@ Date of last verification: **2026-10-16**.
 | Current production authorization | MockMvc JWT tests: anonymous 401, missing operator scope 403, operator scope permitted; HTTPS issuer/audience validator unit tests; missing OIDC config fails closed |
 | Flyway schema | Full suite applies migration and Hibernate validates entity mappings against H2; no live PostgreSQL server tested |
 | Production DB fail-closed process | Current packaged JAR exited 1 when DB/OIDC env vars were empty and reported missing DB/TLS settings (`evidence/prod-00-fail-closed-database.txt`) |
-| Earlier live REST checks | `evidence/rest-*.txt` are real but cover the old HTTP Basic profile; historical only, not evidence for current OIDC/PostgreSQL profile |
+| Publication | Commit `cbbbbd2` pushed to `https://github.com/Sathiyacool/URL_Shortener` (`main`); post-push branch was clean and synchronized |
+| Earlier live production REST checks | Historical `evidence/rest-*.txt` files use the old HTTP Basic profile; they do not evidence current OIDC/PostgreSQL behavior |
 
 Sources: [docs/TEST_RESULTS.md](../docs/TEST_RESULTS.md), `evidence/production-hardening-test-summary.txt`.
 
 ## Current state
 
-P0 to P13 assessment, production-profile hardening, OpenAPI/Swagger, and Copilot handover phases complete. P14 verification is complete; commit/push review is pending as documented in [docs/PLAN.md](../docs/PLAN.md). Check Git history and worktree for the actual publication state.
+P0 to P14 assessment, production-profile hardening, OpenAPI/Swagger, Copilot handover, verification, and publication are complete. Commit `cbbbbd2` is on the configured `origin/main`; future sessions must still inspect actual Git state.
 
 Post-P10 changes (2026-10-16): SLF4J logging and execution-flow Mermaid diagram added. Production profile changed from in-memory Basic auth/H2 to OIDC JWT + PostgreSQL/Flyway. P12 adds springdoc-openapi 2.9.1; focused OpenAPI and production-security tests passed (6, 0 failures/errors/skips). Final `mvn clean verify`: 114 tests, 113 passed, 0 failures, 0 errors, 1 skipped; standalone BDD: 6 scenarios / 22 steps passed. Tests use H2 and mock JWT tokens; no live PostgreSQL or OIDC integration.
 
@@ -36,6 +37,5 @@ Post-P10 changes (2026-10-16): SLF4J logging and execution-flow Mermaid diagram 
 
 ## Next recommended actions
 
-1. Inspect the complete diff and confirm no secret, generated build artifact, or unrelated file is staged; fetch/check `origin` before the authorized commit/push.
-2. Capture screenshots manually per `docs/EVIDENCE.md`; enable symlink privilege and rerun the symlink test when feasible.
-3. Validate migration and OIDC config against live PostgreSQL and an issuer-issued JWT in a controlled test environment; run dependency, load, penetration, backup/restore, and recovery checks.
+1. Capture screenshots manually per `docs/EVIDENCE.md`; enable symlink privilege and rerun the symlink test when feasible.
+2. Validate migration and OIDC config against live PostgreSQL and an issuer-issued JWT in a controlled test environment; run dependency, load, penetration, backup/restore, and recovery checks.

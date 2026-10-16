@@ -37,4 +37,4 @@ The 25 requirement IDs and statuses live in [docs/TRACEABILITY.md](../docs/TRACE
 
 ## Confirmed user decisions
 
-JDK 21 and Maven; Spring Boot 3.x; base package `com.schwab.agentic`; brownfield scenario enhances the shortener's own code (default URL expiration); REST is the primary interface plus a CLI reusing the same services. An initial commit and push to the user-specified repository has been requested; inspect Git status to confirm the actual publication state.
+JDK 21 and Maven; Spring Boot 3.x; base package `com.schwab.agentic`; brownfield scenario enhances the shortener's own code (default URL expiration); REST is the primary interface plus a CLI reusing the same services. The user-specified repository is `https://github.com/Sathiyacool/URL_Shortener`; commit `cbbbbd2` was pushed to `main`. Always inspect current Git state rather than assuming it remains unchanged.
