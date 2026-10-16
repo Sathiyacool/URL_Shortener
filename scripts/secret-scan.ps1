@@ -22,15 +22,15 @@ $patterns = [ordered]@{
     "GitHub token"           = 'gh[pousr]_[A-Za-z0-9]{36,}'
     "Private key block"      = '-----BEGIN (RSA |EC |OPENSSH |DSA )?PRIVATE KEY-----'
     "Slack token"            = 'xox[baprs]-[A-Za-z0-9-]{10,}'
-    "Generic credential"     = '(?i)(password|passwd|secret|api[_-]?key|token)\s*[:=]\s*["'']?[A-Za-z0-9/+_\-]{16,}["'']?'
+    "Generic assignment"     = '(?i)(password|passwd|secret|api[_-]?key|token)\s*[:=]\s*["'']?[A-Za-z0-9/+_\-]{16,}["'']?'
     "JWT"                    = 'eyJ[A-Za-z0-9_-]{10,}\.eyJ[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,}'
 }
 
 $allowedFixtureHashes = @{
-    "src\test\java\com\schwab\agentic\guardrails\PolicyEngineTest.java:23|Generic credential" = "c33f51b5cc404bd55ecb1931baae023ff73ecc7c5fbb3b59486a83fe2d9a25d3"
-    "src\test\java\com\schwab\agentic\security\ProductionAuthorizationBoundaryTest.java:25|Generic credential" = "912a5e64c2dd016ef5e5682f7d3c100431b6250fd1440f412ae5800f95dc21cb"
-    "src\test\java\com\schwab\agentic\security\ProductionFailClosedTest.java:23|Generic credential" = "8c90ddc8409a99773a17f3c0b33d1a2335f2c7190f8a5cddae4ee44d410d69c4"
-    "src\test\java\com\schwab\agentic\security\ProductionSecurityIntegrationTest.java:27|Generic credential" = "912a5e64c2dd016ef5e5682f7d3c100431b6250fd1440f412ae5800f95dc21cb"
+    "src\test\java\com\schwab\agentic\guardrails\PolicyEngineTest.java:23|Generic assignment" = "c33f51b5cc404bd55ecb1931baae023ff73ecc7c5fbb3b59486a83fe2d9a25d3"
+    "src\test\java\com\schwab\agentic\security\ProductionAuthorizationBoundaryTest.java:25|Generic assignment" = "912a5e64c2dd016ef5e5682f7d3c100431b6250fd1440f412ae5800f95dc21cb"
+    "src\test\java\com\schwab\agentic\security\ProductionFailClosedTest.java:23|Generic assignment" = "8c90ddc8409a99773a17f3c0b33d1a2335f2c7190f8a5cddae4ee44d410d69c4"
+    "src\test\java\com\schwab\agentic\security\ProductionSecurityIntegrationTest.java:27|Generic assignment" = "912a5e64c2dd016ef5e5682f7d3c100431b6250fd1440f412ae5800f95dc21cb"
 }
 
 function Get-LineHash {
