@@ -18,7 +18,7 @@ Implementation and test coverage are mapped by requirement in [TRACEABILITY.md](
 | Production profile configuration | Implemented; environment acceptance tracked | PostgreSQL/Flyway, schema validation, OIDC/JWT issuer/audience validation, operator scope and fail-closed configuration |
 | Assessment scenarios | Implemented and tested | Greenfield, brownfield, and ambiguous scenarios through REST, CLI, JUnit and Cucumber |
 | API contract and evidence | Verified for local profile | All 17 OpenAPI operations inventoried; 64 local HTTP checks; endpoint response screenshots and evidence index |
-| Automated tests | Verified with documented skips | Final `mvn -B clean verify`: 149 tests, 144 passed, 0 failures, 0 errors, 5 skipped; BDD 16 scenarios and 76 steps passed |
+| Automated tests | Verified with documented skips | Latest local `mvn -B clean verify`: 147 tests, 0 failures, 0 errors, 4 skipped (PostgreSQL/Testcontainers, no local Docker); BDD 16 scenarios passed. See TEST_RESULTS.md for the first hosted Linux run and the two removed tests |
 | CI and supply-chain evidence | Defined; hosted execution evidence to be recorded | SHA-pinned GitHub Actions workflow, local `actionlint` check, OSV and working-tree secret scan outputs |
 | Documentation and handover | Implemented | Setup, architecture, scenarios, deployment, operations, traceability, evidence and Memory Bank |
 

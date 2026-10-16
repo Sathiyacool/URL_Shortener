@@ -35,21 +35,6 @@ class ArtifactSandboxTest {
     }
 
     @Test
-    void rejectsSymlinkThatTargetsOutsideSandbox() throws IOException {
-        Path sandboxRoot = sandboxRoot();
-        ArtifactSandbox sandbox = new ArtifactSandbox(sandboxRoot.toString());
-        Path outside = Files.createDirectory(tempRoot.resolve("outside"));
-        Path link = sandboxRoot.resolve("escape");
-        try {
-            Files.createSymbolicLink(link, outside);
-        } catch (IOException | UnsupportedOperationException | SecurityException exception) {
-            org.junit.jupiter.api.Assumptions.assumeTrue(false, "Symbolic links are unavailable: " + exception);
-        }
-
-        assertThrows(GuardrailViolationException.class, () -> sandbox.resolve("escape\\artifact.txt"));
-    }
-
-    @Test
     void writesVersionedArtifactsWithCreateNewSemantics() throws IOException {
         ArtifactSandbox sandbox = new ArtifactSandbox(sandboxRoot().toString());
         UUID runId = UUID.randomUUID();

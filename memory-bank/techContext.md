@@ -35,7 +35,7 @@ CLI notes: headless mode needs `--spring.main.web-application-type=none`; avoid 
 
 ## Windows-specific verification
 
-- `ArtifactSandboxTest.rejectsSymlinkThatTargetsOutsideSandbox` is **skipped** when Windows denies symlink creation. Its escape assertion requires a host with symlink privileges. Enable Developer Mode (or run elevated) to execute it. Do not weaken the test.
+- `ArtifactSandboxTest.rejectsSymlinkThatTargetsOutsideSandbox` and `PolicyEngineTest.rejectsPathsThatEscapeSandbox` were removed after failing on the Linux CI runner (CI run 38963197179); both used Windows `\` separators. Path-escape coverage is reduced accordingly.
 - PowerShell strips quotes in inline JSON passed to `curl.exe`; use `-d @file.json`.
 - Harmless warnings: Mockito JDK 21 dynamic-agent warning; Cucumber "classpath resource selector 'features'".
 

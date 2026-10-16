@@ -2,7 +2,9 @@
 
 These results are local verification records. Environment-specific deployment checks are tracked in [OPERATIONS_AND_RELEASE_READINESS.md](./OPERATIONS_AND_RELEASE_READINESS.md).
 
-Last full source verification: **2026-10-17 00:59:33 +05:30**, rerun after the API smoke assertion changes. The final `mvn -B clean verify` result below supersedes the 114-test OpenAPI baseline.
+**Current state (after the first GitHub Actions run, 38963197179, on Linux):** that run executed 149 tests with 2 failures and 0 skipped, so the Docker-backed PostgreSQL contract tests ran on the hosted runner. The failing tests were `ArtifactSandboxTest.rejectsSymlinkThatTargetsOutsideSandbox` and `PolicyEngineTest.rejectsPathsThatEscapeSandbox`. Both used Windows `\` path separators, which Linux treats as ordinary filename characters, so they were platform-specific. Both were removed at the project owner's request, which also removes their path-escape coverage; `ArtifactSandboxTest.rejectsAbsolutePaths` remains. Local `mvn -B clean verify` after removal (2026-10-17): **147 tests, 0 failures, 0 errors, 4 skipped (the PostgreSQL/Testcontainers tests, Docker unavailable locally); BUILD SUCCESS**; Cucumber 16 scenarios passed. A subsequent hosted run has not yet been recorded. The sections below are dated records from the earlier 149-test run and are kept as history.
+
+Last full source verification (historical, pre-removal): **2026-10-17 00:59:33 +05:30**, rerun after the API smoke assertion changes. The final `mvn -B clean verify` result below supersedes the 114-test OpenAPI baseline.
 
 Follow-up test-phase run after the documentation update: `mvn -B test` on 2026-10-17 completed with **149 tests, 144 passed, 0 failures, 0 errors, and 5 skipped; BUILD SUCCESS**. This run included the Cucumber suite; the latest clean `verify` record and its detailed skip explanations remain the release evidence below.
 

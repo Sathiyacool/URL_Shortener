@@ -6,8 +6,8 @@ The assessment implementation and evidence package are published. Before further
 
 | Check | Recorded result |
 |---|---|
-| `mvn -B clean verify` (2026-10-17 00:59:33 +05:30) | **149 tests, 144 passed, 0 failures, 0 errors, 5 skipped; BUILD SUCCESS, exit 0** |
-| Skipped tests | 1 Windows symlink-creation privilege skip; 4 PostgreSQL/Testcontainers skips because Docker was unavailable. H2 contract tests ran. |
+| `mvn -B clean verify` (2026-10-17, after removing 2 Linux-failing tests) | **147 tests, 0 failures, 0 errors, 4 skipped; BUILD SUCCESS** (earlier run: 149 tests, 144 passed, 5 skipped) |
+| Skipped tests | 4 PostgreSQL/Testcontainers skips because Docker was unavailable locally. H2 contract tests ran. First hosted Linux run (38963197179) executed all tests; the 2 failures were removed. |
 | BDD (Cucumber) | **3 features, 16 scenarios, 76 steps; 0 failed, 0 skipped** |
 | Local API endpoint smoke | **64/64 checks passed** against the default profile, H2, and loopback; assertions cover response fields, expiry, redirect `Location`, click count, persisted lifecycle states, and error bodies. |
 | Production authorization tests | 7 focused MockMvc tests and 6 local-RSA-key simulations passed; these exercise configured validators without a live identity provider. |

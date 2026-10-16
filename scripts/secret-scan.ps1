@@ -27,7 +27,7 @@ $patterns = [ordered]@{
 }
 
 $allowedFixtureHashes = @{
-    "src\test\java\com\schwab\agentic\guardrails\PolicyEngineTest.java:34|Generic credential" = "c33f51b5cc404bd55ecb1931baae023ff73ecc7c5fbb3b59486a83fe2d9a25d3"
+    "src\test\java\com\schwab\agentic\guardrails\PolicyEngineTest.java:23|Generic credential" = "c33f51b5cc404bd55ecb1931baae023ff73ecc7c5fbb3b59486a83fe2d9a25d3"
     "src\test\java\com\schwab\agentic\security\ProductionAuthorizationBoundaryTest.java:25|Generic credential" = "912a5e64c2dd016ef5e5682f7d3c100431b6250fd1440f412ae5800f95dc21cb"
     "src\test\java\com\schwab\agentic\security\ProductionFailClosedTest.java:23|Generic credential" = "8c90ddc8409a99773a17f3c0b33d1a2335f2c7190f8a5cddae4ee44d410d69c4"
     "src\test\java\com\schwab\agentic\security\ProductionSecurityIntegrationTest.java:27|Generic credential" = "912a5e64c2dd016ef5e5682f7d3c100431b6250fd1440f412ae5800f95dc21cb"

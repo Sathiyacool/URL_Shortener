@@ -1,7 +1,6 @@
 package com.schwab.agentic.guardrails;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import com.schwab.agentic.orchestration.dag.ImpactLevel;
 import java.nio.file.Path;
@@ -13,16 +12,6 @@ class PolicyEngineTest {
 
     @TempDir
     Path sandboxRoot;
-
-    @Test
-    void rejectsPathsThatEscapeSandbox() {
-        PolicyEngine policyEngine = policyEngine(List.of());
-
-        assertThrows(
-                GuardrailViolationException.class,
-                () -> policyEngine.evaluate(
-                        ArtifactOperation.WRITE_ARTIFACT, "..\\outside.txt", "safe content", null, false));
-    }
 
     @Test
     void blocksSecretLikeContent() {
